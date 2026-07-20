@@ -119,12 +119,69 @@ body::before {
 .project-list {
     display:flex;
     flex-direction:column;
-    gap:8px;
+    gap:6px;
 }
-.project-card {
-    padding:12px;
+
+/* 类别分组 */
+.category-group {
+    border-radius:10px;
+    border:1px solid var(--border);
+    overflow:hidden;
+    background:rgba(13,19,33,0.3);
+}
+.category-header {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 12px;
+    cursor:pointer;
     background:rgba(13,19,33,0.5);
-    border-radius:12px;
+    transition:all 0.3s;
+    user-select:none;
+}
+.category-header:hover {
+    background:rgba(0,212,255,0.08);
+}
+.category-header.active {
+    background:rgba(0,212,255,0.1);
+    border-bottom:1px solid var(--border);
+}
+.category-title {
+    font-size:13px;
+    font-weight:600;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+.category-count {
+    font-size:11px;
+    color:var(--text-muted);
+    font-weight:400;
+}
+.category-arrow {
+    font-size:11px;
+    color:var(--text-muted);
+    transition:transform 0.3s;
+}
+.category-arrow.expanded {
+    transform:rotate(90deg);
+    color:var(--accent);
+}
+.category-content {
+    display:none;
+    padding:8px;
+    flex-direction:column;
+    gap:6px;
+}
+.category-content.expanded {
+    display:flex;
+}
+
+.project-card {
+    padding:10px 12px;
+    background:rgba(13,19,33,0.5);
+    border-radius:10px;
     border:1px solid var(--border);
     cursor:pointer;
     transition:all 0.3s;
@@ -138,22 +195,22 @@ body::before {
     background:rgba(0,212,255,0.1);
 }
 .project-name {
-    font-size:14px;
+    font-size:13px;
     font-weight:600;
     color:var(--text);
-    margin-bottom:4px;
+    margin-bottom:3px;
 }
 .project-meta {
     font-size:11px;
     color:var(--text-secondary);
-    line-height:1.6;
+    line-height:1.5;
 }
 .project-tag {
     display:inline-block;
     padding:2px 8px;
     border-radius:4px;
     font-size:10px;
-    margin-top:6px;
+    margin-top:4px;
     margin-right:4px;
 }
 .tag-urban {background:rgba(0,212,255,0.15);color:var(--accent)}
@@ -928,20 +985,59 @@ function renderProjects() {
         ? projects
         : projects.filter(p => p.type === currentFilter);
 
+    // 按类别分组
+    const grouped = {};
     filtered.forEach(proj => {
-        const card = document.createElement('div');
-        card.className = 'project-card';
-        card.dataset.id = proj.id;
-        card.innerHTML = `
-            <div class="project-name">${proj.name}</div>
-            <div class="project-meta">
-                📍 ${proj.district} · ${proj.address}<br>
-                📐 ${proj.scale} · 📋 ${proj.status}
+        if (!grouped[proj.type]) grouped[proj.type] = [];
+        grouped[proj.type].push(proj);
+    });
+
+    // 类别顺序
+    const typeOrder = ['老旧居住','产业焕新','商圈焕新','历史文化','生态空间','科创学圈','其他'];
+    const sortedTypes = typeOrder.filter(t => grouped[t]);
+
+    sortedTypes.forEach((type, idx) => {
+        const projList = grouped[type];
+        const group = document.createElement('div');
+        group.className = 'category-group';
+
+        const header = document.createElement('div');
+        header.className = 'category-header';
+        header.innerHTML = `
+            <div class="category-title">
+                ${type}
+                <span class="category-count">（${projList.length}个）</span>
             </div>
-            <span class="project-tag ${proj.tagClass}">${proj.type}</span>
+            <span class="category-arrow ${idx === 0 ? 'expanded' : ''}">▶</span>
         `;
-        card.onclick = () => focusProject(proj);
-        listEl.appendChild(card);
+
+        const content = document.createElement('div');
+        content.className = 'category-content' + (idx === 0 ? ' expanded' : '');
+        if (idx === 0) header.classList.add('active');
+
+        projList.forEach(proj => {
+            const card = document.createElement('div');
+            card.className = 'project-card';
+            card.dataset.id = proj.id;
+            card.innerHTML = `
+                <div class="project-name">${proj.name}</div>
+                <div class="project-meta">📍 ${proj.district} · ${proj.scale}</div>
+                <span class="project-tag ${proj.tagClass}">${proj.type}</span>
+            `;
+            card.onclick = () => focusProject(proj);
+            content.appendChild(card);
+        });
+
+        header.onclick = () => {
+            const isExpanded = content.classList.contains('expanded');
+            content.classList.toggle('expanded');
+            header.querySelector('.category-arrow').classList.toggle('expanded', !isExpanded);
+            header.classList.toggle('active', !isExpanded);
+        };
+
+        group.appendChild(header);
+        group.appendChild(content);
+        listEl.appendChild(group);
     });
 
     renderMarkers(filtered);
@@ -1006,6 +1102,17 @@ function highlightCard(id) {
     const card = document.querySelector(`.project-card[data-id="${id}"]`);
     if (card) {
         card.classList.add('active');
+        // 确保父级类别已展开
+        const content = card.closest('.category-content');
+        if (content && !content.classList.contains('expanded')) {
+            content.classList.add('expanded');
+            const header = content.previousElementSibling;
+            if (header) {
+                header.classList.add('active');
+                const arrow = header.querySelector('.category-arrow');
+                if (arrow) arrow.classList.add('expanded');
+            }
+        }
         card.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 }
