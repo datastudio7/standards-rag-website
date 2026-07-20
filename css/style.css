@@ -147,6 +147,25 @@ body {
     border-color: var(--accent);
     color: var(--accent);
 }
+.btn-back-under {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: rgba(13, 19, 33, 0.5);
+    transition: all 0.2s;
+    margin-bottom: 4px;
+}
+.btn-back-under:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(0, 212, 255, 0.1);
+}
 .header-inner {
     max-width: 1400px;
     margin: 0 auto;
