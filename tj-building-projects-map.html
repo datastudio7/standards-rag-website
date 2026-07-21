@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<title>建筑分院项目地图 - TUPDI</title>
+<title>天津规划总院·建筑设计产品中心 - 宣传展示</title>
 <script src="https://webapi.amap.com/maps?v=2.0&key=b0dd6ddde6f0130c89dea8f8b20f93fa"></script>
 <style>
 :root {
@@ -13,6 +13,7 @@
     --bg-card: rgba(13,19,33,0.7);
     --text: #e8ecf1;
     --text-secondary: #8b9bb4;
+    --text-muted: #5a6a85;
     --accent: #00d4ff;
     --border: rgba(0,212,255,0.12);
     --font: 'Inter','Noto Sans SC',-apple-system,sans-serif;
@@ -42,9 +43,87 @@ body::before {
     -webkit-mask-image:radial-gradient(ellipse at center, black 30%, transparent 70%);
 }
 
+/* 顶部导航 */
+.top-nav {
+    position:fixed;
+    top:0;left:0;right:0;
+    height:56px;
+    background:var(--bg-card);
+    border-bottom:1px solid var(--border);
+    backdrop-filter:blur(12px);
+    z-index:100;
+    display:flex;
+    align-items:center;
+    padding:0 20px;
+    gap:16px;
+}
+.nav-brand {
+    font-size:15px;
+    font-weight:700;
+    color:var(--accent);
+    letter-spacing:1px;
+    margin-right:auto;
+    white-space:nowrap;
+}
+.nav-tabs {
+    display:flex;
+    gap:4px;
+}
+.nav-tab {
+    padding:8px 18px;
+    border:1px solid var(--border);
+    background:rgba(13,19,33,0.5);
+    border-radius:10px;
+    cursor:pointer;
+    font-size:13px;
+    color:var(--text-secondary);
+    transition:all 0.3s;
+}
+.nav-tab:hover, .nav-tab.active {
+    background:rgba(0,212,255,0.15);
+    color:var(--accent);
+    border-color:var(--accent);
+    box-shadow:0 0 8px rgba(0,212,255,0.1);
+}
+.back-link {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    color:var(--text-secondary);
+    font-size:12px;
+    text-decoration:none;
+    padding:6px 12px;
+    border-radius:8px;
+    border:1px solid var(--border);
+    background:rgba(13,19,33,0.5);
+    transition:all 0.3s;
+}
+.back-link:hover {
+    color:var(--accent);
+    border-color:var(--accent);
+}
+
+/* 主内容区 */
+.main-content {
+    flex:1;
+    margin-top:56px;
+    display:flex;
+    position:relative;
+    z-index:1;
+    overflow:hidden;
+}
+.page {
+    display:none;
+    width:100%;
+    height:100%;
+}
+.page.active {
+    display:flex;
+}
+
 /* 左侧面板 */
 .sidebar {
-    width:380px;
+    width:400px;
     padding:16px;
     background:var(--bg-card);
     border-right:1px solid var(--border);
@@ -61,6 +140,17 @@ body::before {
 .sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 .sidebar::-webkit-scrollbar-thumb:hover{background:var(--accent)}
 
+/* 通用内容面板 */
+.content-panel {
+    flex:1;
+    padding:24px 32px;
+    overflow-y:auto;
+    background:var(--bg);
+}
+.content-panel::-webkit-scrollbar{width:6px}
+.content-panel::-webkit-scrollbar-track{background:transparent}
+.content-panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
 .header {
     padding:10px 14px;
     background:linear-gradient(135deg, rgba(0,212,255,0.2) 0%, rgba(0,212,255,0.05) 100%);
@@ -74,24 +164,27 @@ body::before {
     font-size:16px;
 }
 
-.back-link {
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    color:var(--text-secondary);
-    font-size:12px;
-    text-decoration:none;
-    padding:6px 10px;
-    border-radius:8px;
-    border:1px solid var(--border);
+.stats-bar {
+    display:flex;
+    gap:10px;
+    padding:10px;
     background:rgba(13,19,33,0.5);
-    transition:all 0.3s;
-    width:fit-content;
+    border-radius:10px;
+    border:1px solid var(--border);
 }
-.back-link:hover {
+.stat-item {
+    flex:1;
+    text-align:center;
+}
+.stat-num {
+    font-size:20px;
+    font-weight:bold;
     color:var(--accent);
-    border-color:var(--accent);
-    box-shadow:0 0 8px rgba(0,212,255,0.1);
+}
+.stat-label {
+    font-size:10px;
+    color:var(--text-secondary);
+    margin-top:2px;
 }
 
 .filter-bar {
@@ -122,7 +215,6 @@ body::before {
     gap:6px;
 }
 
-/* 类别分组 */
 .category-group {
     border-radius:10px;
     border:1px solid var(--border);
@@ -205,6 +297,18 @@ body::before {
     color:var(--text-secondary);
     line-height:1.5;
 }
+.project-desc {
+    font-size:11px;
+    color:var(--text-muted);
+    line-height:1.5;
+    margin-top:4px;
+    max-height:3.2em;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+}
 .award-row {
     margin-top:6px;
     display:flex;
@@ -217,9 +321,21 @@ body::before {
     border-radius:4px;
     font-size:10px;
 }
-.award-gold {background:rgba(255,215,0,0.15);color:#ffd700}
-.award-silver {background:rgba(192,192,192,0.15);color:#c0c0c0}
-.award-bronze {background:rgba(205,127,50,0.15);color:#cd7f32}
+.award-gold {
+    background:rgba(255,215,0,0.15);
+    color:#ffd700;
+    border:1px solid rgba(255,215,0,0.3);
+}
+.award-silver {
+    background:rgba(192,192,192,0.15);
+    color:#c0c0c0;
+    border:1px solid rgba(192,192,192,0.3);
+}
+.award-national {
+    background:rgba(0,212,255,0.15);
+    color:var(--accent);
+    border:1px solid rgba(0,212,255,0.3);
+}
 .project-tag {
     display:inline-block;
     padding:2px 8px;
@@ -228,33 +344,30 @@ body::before {
     margin-top:6px;
     margin-right:4px;
 }
-.tag-public {background:rgba(0,212,255,0.15);color:var(--accent)}
-.tag-residential {background:rgba(82,196,26,0.15);color:#52c41a}
-.tag-commercial {background:rgba(250,140,22,0.15);color:#fa8c16}
-.tag-cultural {background:rgba(235,47,150,0.15);color:#eb2f96}
-.tag-medical {background:rgba(255,68,68,0.15);color:#ff4444}
-
-.stats-bar {
-    display:flex;
-    gap:10px;
-    padding:10px;
-    background:rgba(13,19,33,0.5);
-    border-radius:10px;
-    border:1px solid var(--border);
+.tag-cultural {
+    background:rgba(235,47,150,0.15);
+    color:#eb2f96;
+    border:1px solid rgba(235,47,150,0.3);
 }
-.stat-item {
-    flex:1;
-    text-align:center;
-}
-.stat-num {
-    font-size:20px;
-    font-weight:bold;
+.tag-public {
+    background:rgba(0,212,255,0.15);
     color:var(--accent);
+    border:1px solid rgba(0,212,255,0.3);
 }
-.stat-label {
-    font-size:10px;
-    color:var(--text-secondary);
-    margin-top:2px;
+.tag-residential {
+    background:rgba(82,196,26,0.15);
+    color:#52c41a;
+    border:1px solid rgba(82,196,26,0.3);
+}
+.tag-commercial {
+    background:rgba(250,140,22,0.15);
+    color:#fa8c16;
+    border:1px solid rgba(250,140,22,0.3);
+}
+.tag-medical {
+    background:rgba(255,68,68,0.15);
+    color:#ff4444;
+    border:1px solid rgba(255,68,68,0.3);
 }
 
 #map {
@@ -263,7 +376,6 @@ body::before {
     z-index:1;
 }
 
-/* 信息窗口 */
 .info-window {
     padding:8px;
     min-width:240px;
@@ -289,172 +401,370 @@ body::before {
     padding-top:6px;
     border-top:1px solid #eee;
 }
+
+/* 奖项页面 */
+.awards-page {
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:20px;
+    height:100%;
+}
+.awards-sidebar {
+    padding:16px;
+    background:var(--bg-card);
+    border-right:1px solid var(--border);
+    overflow-y:auto;
+}
+.awards-content {
+    padding:24px;
+    overflow-y:auto;
+}
+.award-year-group {
+    margin-bottom:20px;
+}
+.award-year-header {
+    font-size:18px;
+    font-weight:700;
+    color:var(--accent);
+    margin-bottom:12px;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--border);
+}
+.award-card {
+    padding:14px 16px;
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    margin-bottom:10px;
+    transition:all 0.3s;
+}
+.award-card:hover {
+    border-color:var(--accent);
+    box-shadow:0 0 12px rgba(0,212,255,0.08);
+}
+.award-card-title {
+    font-size:14px;
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:6px;
+}
+.award-card-meta {
+    font-size:12px;
+    color:var(--text-secondary);
+    line-height:1.6;
+}
+.award-level-badge {
+    display:inline-block;
+    padding:2px 10px;
+    border-radius:4px;
+    font-size:11px;
+    margin-right:6px;
+    font-weight:500;
+}
+.level-national {
+    background:rgba(255,215,0,0.15);
+    color:#ffd700;
+    border:1px solid rgba(255,215,0,0.3);
+}
+.level-provincial {
+    background:rgba(0,212,255,0.15);
+    color:var(--accent);
+    border:1px solid rgba(0,212,255,0.3);
+}
+.level-municipal {
+    background:rgba(82,196,26,0.15);
+    color:#52c41a;
+    border:1px solid rgba(82,196,26,0.3);
+}
+.level-other {
+    background:rgba(138,43,226,0.15);
+    color:#a855f7;
+    border:1px solid rgba(138,43,226,0.3);
+}
+
+/* 标准和出版页面 */
+.std-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));
+    gap:16px;
+    padding:8px 0;
+}
+.std-card {
+    padding:16px;
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    transition:all 0.3s;
+}
+.std-card:hover {
+    border-color:var(--accent);
+    box-shadow:0 0 12px rgba(0,212,255,0.08);
+}
+.std-card-type {
+    font-size:11px;
+    color:var(--accent);
+    margin-bottom:6px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+.std-card-title {
+    font-size:14px;
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:8px;
+}
+.std-card-meta {
+    font-size:12px;
+    color:var(--text-secondary);
+    line-height:1.6;
+}
+.std-card-code {
+    font-family:monospace;
+    background:rgba(0,212,255,0.08);
+    padding:2px 8px;
+    border-radius:4px;
+    font-size:11px;
+    color:var(--accent);
+    margin-top:8px;
+    display:inline-block;
+}
+
+.book-card {
+    display:flex;
+    gap:16px;
+    padding:16px;
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    margin-bottom:12px;
+    transition:all 0.3s;
+}
+.book-card:hover {
+    border-color:var(--accent);
+    box-shadow:0 0 12px rgba(0,212,255,0.08);
+}
+.book-cover {
+    width:80px;
+    height:110px;
+    background:linear-gradient(135deg, rgba(0,212,255,0.2), rgba(0,212,255,0.05));
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    flex-shrink:0;
+    border:1px solid var(--border);
+}
+.book-info {
+    flex:1;
+}
+.book-title {
+    font-size:15px;
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:6px;
+}
+.book-meta {
+    font-size:12px;
+    color:var(--text-secondary);
+    line-height:1.7;
+}
+.book-desc {
+    font-size:12px;
+    color:var(--text-muted);
+    line-height:1.6;
+    margin-top:6px;
+}
+
+.page-title {
+    font-size:22px;
+    font-weight:700;
+    color:var(--text);
+    margin-bottom:20px;
+    padding-bottom:12px;
+    border-bottom:1px solid var(--border);
+}
+
+.sub-filter {
+    display:flex;
+    gap:8px;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+}
+.sub-filter-btn {
+    padding:4px 12px;
+    border:1px solid var(--border);
+    background:rgba(13,19,33,0.5);
+    border-radius:8px;
+    cursor:pointer;
+    font-size:12px;
+    color:var(--text-secondary);
+    transition:all 0.3s;
+}
+.sub-filter-btn:hover, .sub-filter-btn.active {
+    background:rgba(0,212,255,0.15);
+    color:var(--accent);
+    border-color:var(--accent);
+}
+
+.summary-cards {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));
+    gap:12px;
+    margin-bottom:24px;
+}
+.summary-card {
+    padding:16px;
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    text-align:center;
+}
+.summary-num {
+    font-size:28px;
+    font-weight:bold;
+    color:var(--accent);
+}
+.summary-label {
+    font-size:12px;
+    color:var(--text-secondary);
+    margin-top:4px;
+}
 </style>
 </head>
 <body>
-<div class="sidebar">
-    <div class="header">🏗️ 建筑分院项目地图</div>
-    <a href="index.html" class="back-link">← 返回工具箱主页</a>
 
-    <div class="stats-bar">
-        <div class="stat-item">
-            <div class="stat-num" id="statTotal">0</div>
-            <div class="stat-label">项目总数</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num" id="statAwards">0</div>
-            <div class="stat-label">获奖项目</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-num" id="statTypes">0</div>
-            <div class="stat-label">类型种类</div>
-        </div>
+<!-- 顶部导航 -->
+<div class="top-nav">
+    <div class="nav-brand">🏛️ 天津规划总院·建筑设计产品中心</div>
+    <div class="nav-tabs">
+        <button class="nav-tab active" onclick="switchPage('map')">📍 项目地图</button>
+        <button class="nav-tab" onclick="switchPage('awards')">🏆 获奖荣誉</button>
+        <button class="nav-tab" onclick="switchPage('standards')">📋 标准规范</button>
+        <button class="nav-tab" onclick="switchPage('books')">📚 学术出版</button>
     </div>
-
-    <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all" onclick="filterProjects('all')">全部</button>
-        <button class="filter-btn" data-filter="公共建筑" onclick="filterProjects('公共建筑')">公共建筑</button>
-        <button class="filter-btn" data-filter="住宅" onclick="filterProjects('住宅')">住宅</button>
-        <button class="filter-btn" data-filter="城市更新" onclick="filterProjects('城市更新')">城市更新</button>
-        <button class="filter-btn" data-filter="医疗" onclick="filterProjects('医疗')">医疗</button>
-        <button class="filter-btn" data-filter="商业" onclick="filterProjects('商业')">商业</button>
-    </div>
-
-    <div class="project-list" id="projectList"></div>
+    <a href="index.html" class="back-link">← 返回工具箱</a>
 </div>
-<div id="map"></div>
+
+<!-- 主内容 -->
+<div class="main-content">
+
+    <!-- 项目地图页 -->
+    <div class="page active" id="page-map">
+        <div class="sidebar">
+            <div class="header">📍 项目地图 · {len(data['projects'])}个项目</div>
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-num" id="statTotal">0</div>
+                    <div class="stat-label">项目总数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num" id="statAwards">0</div>
+                    <div class="stat-label">获奖项目</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num" id="statTypes">0</div>
+                    <div class="stat-label">类型种类</div>
+                </div>
+            </div>
+            <div class="filter-bar">
+                <button class="filter-btn active" data-filter="all" onclick="filterProjects('all')">全部</button>
+                <button class="filter-btn" data-filter="文化建筑" onclick="filterProjects('文化建筑')">文化</button>
+                <button class="filter-btn" data-filter="办公建筑" onclick="filterProjects('办公建筑')">办公</button>
+                <button class="filter-btn" data-filter="教育建筑" onclick="filterProjects('教育建筑')">教育</button>
+                <button class="filter-btn" data-filter="医疗建筑" onclick="filterProjects('医疗建筑')">医疗</button>
+                <button class="filter-btn" data-filter="住宅公寓" onclick="filterProjects('住宅公寓')">住宅</button>
+                <button class="filter-btn" data-filter="更新改造" onclick="filterProjects('更新改造')">更新</button>
+                <button class="filter-btn" data-filter="城市设计" onclick="filterProjects('城市设计')">城设</button>
+                <button class="filter-btn" data-filter="室内精装" onclick="filterProjects('室内精装')">精装</button>
+                <button class="filter-btn" data-filter="总师团队" onclick="filterProjects('总师团队')">总师</button>
+                <button class="filter-btn" data-filter="数智平台" onclick="filterProjects('数智平台')">数智</button>
+                <button class="filter-btn" data-filter="酒店建筑" onclick="filterProjects('酒店建筑')">酒店</button>
+            </div>
+            <div class="project-list" id="projectList"></div>
+        </div>
+        <div id="map"></div>
+    </div>
+
+    <!-- 获奖荣誉页 -->
+    <div class="page" id="page-awards">
+        <div class="awards-sidebar">
+            <div class="header">🏆 获奖统计</div>
+            <div class="stats-bar" style="flex-direction:column;gap:8px;">
+                <div class="stat-item">
+                    <div class="stat-num" id="awardTotal">0</div>
+                    <div class="stat-label">获奖总数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num" id="awardNational">0</div>
+                    <div class="stat-label">国家级</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num" id="awardProvincial">0</div>
+                    <div class="stat-label">省部级</div>
+                </div>
+            </div>
+            <div class="sub-filter" style="flex-direction:column;gap:6px;margin-top:12px;">
+                <button class="sub-filter-btn active" onclick="filterAwards('all')">全部奖项</button>
+                <button class="sub-filter-btn" onclick="filterAwards('国家级')">国家级</button>
+                <button class="sub-filter-btn" onclick="filterAwards('省部级')">省部级</button>
+                <button class="sub-filter-btn" onclick="filterAwards('市级')">市级</button>
+                <button class="sub-filter-btn" onclick="filterAwards('行业')">行业</button>
+            </div>
+        </div>
+        <div class="awards-content" id="awardsContent"></div>
+    </div>
+
+    <!-- 标准规范页 -->
+    <div class="page" id="page-standards">
+        <div class="content-panel">
+            <div class="page-title">📋 标准 / 规范 / 图集</div>
+            <div class="summary-cards" id="stdSummary"></div>
+            <div class="sub-filter">
+                <button class="sub-filter-btn active" onclick="filterStandards('all')">全部</button>
+                <button class="sub-filter-btn" onclick="filterStandards('标准')">标准</button>
+                <button class="sub-filter-btn" onclick="filterStandards('规范')">规范</button>
+                <button class="sub-filter-btn" onclick="filterStandards('图集')">图集</button>
+                <button class="sub-filter-btn" onclick="filterStandards('导则')">导则</button>
+            </div>
+            <div class="std-grid" id="stdGrid"></div>
+        </div>
+    </div>
+
+    <!-- 学术出版页 -->
+    <div class="page" id="page-books">
+        <div class="content-panel">
+            <div class="page-title">📚 书刊 / 出版物（赵春水 著作·译作）</div>
+            <div class="summary-cards" id="bookSummary"></div>
+            <div id="bookList"></div>
+        </div>
+    </div>
+
+</div>
 
 <script>
-// 建筑分院项目数据
-const projects = [
-    {
-        id: 1,
-        name: '雄安新区青年安居项目',
-        type: '住宅',
-        district: '雄安新区',
-        address: '河北雄安新区',
-        lng: 115.93,
-        lat: 39.03,
-        status: '已建成',
-        scale: '大型安居社区',
-        desc: '京津冀协同发展最佳作品（2025），保障房设计典范',
-        tagClass: 'tag-residential',
-        awards: ['🏆 京津冀协同发展最佳作品 2025']
-    },
-    {
-        id: 2,
-        name: '人民医院项目',
-        type: '医疗',
-        district: '天津市',
-        address: '天津市中心城区',
-        lng: 117.20,
-        lat: 39.10,
-        status: '已建成',
-        scale: '三甲医院',
-        desc: '全国BIM创新杯三等奖（2025）',
-        tagClass: 'tag-medical',
-        awards: ['🥉 全国BIM创新杯三等奖 2025']
-    },
-    {
-        id: 3,
-        name: '经纬恒润研发中心',
-        type: '公共建筑',
-        district: '天津市',
-        address: '天津市',
-        lng: 117.25,
-        lat: 39.15,
-        status: '已建成',
-        scale: '企业研发中心',
-        desc: '海河杯一等成果（2025），工业建筑设计标杆',
-        tagClass: 'tag-public',
-        awards: ['🏆 海河杯一等成果 2025']
-    },
-    {
-        id: 4,
-        name: '保障性住房项目',
-        type: '住宅',
-        district: '天津市',
-        address: '天津市',
-        lng: 117.18,
-        lat: 39.12,
-        status: '已建成',
-        scale: '保障性住宅社区',
-        desc: '天津市"好房子"设计大赛一等奖（2024）',
-        tagClass: 'tag-residential',
-        awards: ['🏆 天津市好房子设计大赛一等奖 2024']
-    },
-    {
-        id: 5,
-        name: '容西片区安置房',
-        type: '住宅',
-        district: '雄安新区',
-        address: '雄安新区容西片区',
-        lng: 115.90,
-        lat: 39.05,
-        status: '已建成',
-        scale: '大型安置社区',
-        desc: '勘察设计一等成果（2024），雄安新区重点民生工程',
-        tagClass: 'tag-residential',
-        awards: ['🏆 勘察设计一等成果 2024']
-    },
-    {
-        id: 6,
-        name: '交通旅馆改造',
-        type: '城市更新',
-        district: '和平区',
-        address: '天津市和平区',
-        lng: 117.205,
-        lat: 39.115,
-        status: '已完成',
-        scale: '历史建筑改造',
-        desc: '勘察设计二等成果（2024），历史建筑活化利用',
-        tagClass: 'tag-cultural',
-        awards: ['🥈 勘察设计二等成果 2024']
-    },
-    {
-        id: 7,
-        name: '解放南路地区城市设计',
-        type: '城市更新',
-        district: '河西区',
-        address: '天津市河西区解放南路',
-        lng: 117.23,
-        lat: 39.09,
-        status: '已实施',
-        scale: '大型片区',
-        desc: '解放南路沿线街区整体城市设计，TUPDI重点项目',
-        tagClass: 'tag-cultural',
-        awards: []
-    },
-    {
-        id: 8,
-        name: '泰安道历史文化街区',
-        type: '城市更新',
-        district: '和平区',
-        address: '天津市和平区泰安道',
-        lng: 117.20,
-        lat: 39.11,
-        status: '已完成',
-        scale: '历史街区',
-        desc: '历史文化街区保护与更新，天津城市名片',
-        tagClass: 'tag-cultural',
-        awards: []
-    },
-    {
-        id: 9,
-        name: '天津城市中心设计',
-        type: '公共建筑',
-        district: '和平区',
-        address: '天津市和平区',
-        lng: 117.195,
-        lat: 39.125,
-        status: '已实施',
-        scale: '城市核心区',
-        desc: '天津城市中心地区城市设计，提升城市形象',
-        tagClass: 'tag-public',
-        awards: []
-    }
-];
+// ====== 数据 ======
+const projects = [{"id": 1, "name": "天津图书馆", "type": "文化建筑", "district": "天津", "location": "天津", "year": "2012", "partner": "山本理显设计工场（日本）", "desc": "天津图书馆藏书量600万册，日读者流量达5000~8000人次。图书馆总建筑面积54812平方米，建筑占地面积36700平方米，地下1层建筑面积11874平方米，为书库和设备用房，地上5层建筑面积42938平方米，为阅览和办公用房。建筑总高30米，地上采用钢框架支撑与复杂空间桁架相融合的结构体系，地下采用型钢混凝土框架剪力墙结构。天津图书馆是集文献信息资源收集、整理、储存、研究与服务等功能为一体的综合性大型公共图书馆，反应了天津城市建筑艺术、科学技术和文化发展的先进水平。", "awards": ["全国优秀工程勘察设计奖建筑工程一等奖", "中国土木工程詹天佑大奖", "海河杯天津市优秀勘察设计特别奖"], "tagClass": "tag-cultural", "lng": 117.155, "lat": 39.11}, {"id": 2, "name": "滨海图书馆", "type": "文化建筑", "district": "天津", "location": "天津", "year": "2017", "partner": "MVRDV建筑师事务所（荷兰）", "desc": "滨海图书馆坐落于滨海文化中心（一期）的东侧，是滨海文化中心项目中与市民生活关系最紧密的公共建筑之一。滨海图书馆总建筑面积33700平方米，地上5层，地下1层，设计藏书量135万册，设置阅览席位1500个，具有国际一流的数字媒体阅检和实体书籍借阅功能。它是超越类型学重新定义建筑公共空间的现象级图书馆。", "awards": ["全国优秀工程勘察设计奖优秀（公共）建筑设计一等奖", "海河杯天津市优秀勘察设计一等奖"], "tagClass": "tag-cultural", "lng": 117.125, "lat": 39.1}, {"id": 3, "name": "滨海科技馆", "type": "文化建筑", "district": "天津", "location": "天津", "year": "2019", "partner": "伯纳德·屈米建筑师事务所（美国）", "desc": "滨海科技馆坐落于滨海文化中心（一期）东北侧，场馆东侧为紫云公园，南侧为滨海图书馆，文化长廊围绕科技馆的南侧和西侧，建筑面积为32730平方米，地上4层，地下1层。科技馆重点展示我国智能化高科技发展趋势，是场地记忆与空间创造相得益彰的历史发生器。", "awards": ["全国优秀工程勘察设计奖优秀（公共）建筑设计一等奖", "海河杯天津市优秀勘察设计一等奖"], "tagClass": "tag-cultural", "lng": 117.11, "lat": 39.1}, {"id": 4, "name": "济宁文化馆", "type": "文化建筑", "district": "山东", "location": "山东", "year": "2019", "partner": "—", "desc": "济宁文化馆位于太白湖东侧文化中心的北端，总建筑面积26749平方米，地下1层，地上5层。它是集群众艺术活动、培训、制作、展示，以及服务功能于一体的活动场所。建筑立意源自《论语》游于艺，是一个尝试以多意叙事的空间体验，向人们传递游于艺现代意义的创意建筑。", "awards": ["中国钢结构金奖工程一等奖", "海河杯天津市优秀勘察设计建筑工程公建一等奖", "海河杯天津市优秀勘察设计建筑装饰设计一等奖", "BIM·CIM应用成熟度创新大赛优秀奖"], "tagClass": "tag-cultural", "lng": 116.37, "lat": 35.43}, {"id": 5, "name": "泰安道丽思卡尔顿酒店", "type": "酒店建筑", "district": "天津", "location": "天津", "year": "2014", "partner": "—", "desc": "建筑设计在材料上选用了最符合泰安道地区特色的，相对廉价的建筑材料--外檐装饰砖；在工艺技术上使用相对简易传统纯手工砌筑方式，以匠人之手营造出怡人尺度的建筑细节，充分挖掘和发扬天津多种传统建造工艺，营造出富含天津历史情感的建筑环境。本项目为天津市泰安道五大院工程项目之一，坐落于城市中心区的核心地带，位于以英式风貌建筑为主的泰安道历史文化街区。通过街区更新建设，形成新老建筑围合而成的独立院落空间，并与城市环境保持一定程度的联通。规划用地面积1.75公顷，总建筑面积98215平方米，其中地上建筑面积69000平方米，地下建筑面积29215平方米。它是一座历史文化街区通过有机更新重新焕发活力的标志性建筑。", "awards": ["中国建设工程鲁班奖", "海河杯天津市优秀勘察设计一等奖", "海河杯天津市优秀勘察设计二等奖"], "tagClass": "tag-commercial", "lng": 117.125, "lat": 39.12}, {"id": 6, "name": "泰安道二号院", "type": "办公建筑", "district": "天津", "location": "天津", "year": "2014", "partner": "—", "desc": "泰安道二号院为天津市泰安道五大院工程项目之一，地上建筑面积为18519平方米，项目新建建筑1~2层功能以高级餐饮为主，专为区域商旅人士提供高端的洽淡空间；3层以上为跨国企业总部。保护建筑分别为历史主题和设计主题精品酒店。二号院的整体院落为对应商务人士提供全链条综合服务片区。新建建筑与保留建筑围合营造出一个空间完整、相对独立、又与周边环境相互渗透的院落空间，为市民们提供一个休闲交流的公共场所，同时院内空间可作为商业展示或文化交流场所使用。", "awards": ["海河杯天津市优秀勘察设计二等奖"], "tagClass": "tag-public", "lng": 117.155, "lat": 39.1}, {"id": 7, "name": "天津规划总院科研楼", "type": "办公建筑", "district": "天津", "location": "天津", "year": "2020", "partner": "—", "desc": "天津市城市规划设计研究总院科研楼，占地1.2公顷，建筑规模36000平方米，地上20层，地下2层。科研楼的使用功能主要包括科研用房、会议及职工食堂，以及配套使用的机动车停车库及设备用房。该项目获得住建部三星级绿色建筑设计标识认证。", "awards": ["海河杯天津市优秀勘察设计二等奖（专项工程组）"], "tagClass": "tag-public", "lng": 117.2, "lat": 39.09}, {"id": 8, "name": "经纬恒润天津研发中心", "type": "办公建筑", "district": "天津", "location": "天津", "year": "2023", "partner": "—", "desc": "经纬恒润天津研发中心建设项目主要为研发中心与综合办公楼，主要建设包括研发、测试、试验、综合办公以及相关的配套服务设施等，以及部分商业及配套设施。本项目位于西青区张家窝镇南站科技商务区1-5号地块，其中一期占地面积为1.98万m²，建筑面积为7.32万m²。本项目定位是打造国际一流的智慧型高品质办公楼与研发中心，为终端用户提供优质服务。为使用者提供周全、便捷的人性化服务。力求营造典雅舒适、安全便捷、尺度宜人别具特色的场所空间与可持续发展的办公与研发环境。与此同时，保留一定的空间灵活性，满足多方面的使用需求。", "awards": ["天津市优秀工程勘察设计一等成果", "海尔智慧楼宇天津市绿色设计大赛优秀成果"], "tagClass": "tag-public", "lng": 117.155, "lat": 39.09}, {"id": 9, "name": "天津四中", "type": "教育建筑", "district": "天津", "location": "天津", "year": "2018", "partner": "RASS事务所（德国）", "desc": "天津市第四中学新址位于天津市文化中心东南部，建筑面积57638平方米，设计班额为36个初中班，36个高中班，8个国际班，服务学生4000人，项目早在节点条件下的极限设计，更是一次营造特色教育环境的探索。在周边规划尚未明确的条件下，以功能复合、空间集约、形态连续建筑特色成为区域价值的重要载体。", "awards": ["海河杯天津市优秀勘察设计一等奖"], "tagClass": "tag-public", "lng": 117.125, "lat": 39.1}, {"id": 10, "name": "王稳庄中学", "type": "教育建筑", "district": "天津", "location": "天津", "year": "2021", "partner": "—", "desc": "王稳庄中学迁建工程项目规划可用地面积4.27公顷，可容纳48个教学班，总建筑面积3.56万平米，设计以人为本，一切以服务师生的学习、工作和生活为出发点。方案将功能统一考虑，集约设计，通过水平和垂直交通系统将传统校园布局中分散的各功能单元紧密联系起来，形成布局紧凑、使用高效、充满活力的立体化教育综合体。设计着重强调与装配施工、绿色钢构、地源热泵、雨水回收、透水路面、屋顶绿化等技术手段的结合，力争打造低碳绿色的生态校园。", "awards": ["海河杯天津市优秀勘察设计二等奖"], "tagClass": "tag-public", "lng": 117.11, "lat": 39.12}, {"id": 11, "name": "新建天津青年职业学院", "type": "教育建筑", "district": "天津", "location": "天津", "year": "2014", "partner": "—", "desc": "新遡榫建天津青年职业学院位于海河职业教育园区二期建设范围内，新校区总用地面积27.6公顷，一期建设面积7.46万平方米。校区分为南北两个区域，南区主要为公共教学区，包括行政办公楼、实训楼、教学楼和训练馆;北区主要是学生生活区，包括食堂、学生宿舍、学生公寓、配套服务楼、体育运动场地。2018年6月，天津青年职业学院整建制转入天津职业大学，现为天津职业大学海河园校区。", "awards": ["海河杯天津市优秀勘察设计一等奖"], "tagClass": "tag-public", "lng": 117.11, "lat": 39.1}, {"id": 12, "name": "天津市人民医院", "type": "医疗建筑", "district": "天津", "location": "天津", "year": "2024", "partner": "—", "desc": "天津市人民医院是集医疗、科研、教学及康复为一体的现代化大型三级甲等综合医院，也是天津市五大区域医疗中心之一。扩建三期急救综合楼项目，总建筑面积43200㎡，其中地上25500㎡、地下17700㎡，地上5层、地下2层，设7个病区、354个床位。项目在医院原有两期基础上整合资源、重组急救功能，由十三个独立清晰的功能模块组成，通过公共空间与医疗街联动，秉持人文关怀理念优化就医流程，构建安全健康高效的医疗环境。扩建三期住院楼项目，总建筑面积54256㎡，其中地上34862㎡、地下19394㎡，地上16层、地下3层，600个床位，是国家十四五规划重大工程及第一批国家紧急医学救援基地，也是医院存量更新、功能升级的核心项目。项目整合原有院区资源，完善住院诊疗功能，以平疫协同、疗愈共生、科技赋能为核心理念，融入智慧技术与人文设计，构建优质医疗环境，为存量院区更新提供可复制范本。", "awards": ["天津市优秀工程勘察设计一等成果", "人文医疗建筑奖-全国优秀建筑设计奖", "海河杯天津市优秀勘察设计二等奖", "第十四届“创新杯”建筑信息模型应用大赛医疗建筑BIM应用三等奖", "国家紧急医学救援基地项目公建类三等奖"], "tagClass": "tag-medical", "lng": 117.125, "lat": 39.09}, {"id": 13, "name": "南开医院中西医结合临床中心", "type": "医疗建筑", "district": "天津", "location": "天津", "year": "2025", "partner": "—", "desc": "天津市南开医院中西医结合临床中心建设项目，为国家级中西医协同旗舰医院工程，也是天津市2025年民心工程重点项目。项目总建筑面积4.32万平方米，包含改造面积2.76万平方米、新建面积1.56万平方米。项目创新采用一廊连两院、三廊全贯通设计，新建空中连廊串联南北院区，完善内部连廊体系，提升医患通行安全与舒适度。同时科学整合医疗布局，南北院区功能互补、资源共享，配套建设名医堂、肿瘤中心、治未病及康复中心等。同步实施建筑风貌重塑、结构加固、机电及消防系统升级。项目开诊后将引入名医团队，全面优化就医条件，服务全市及全国患者。", "awards": [], "tagClass": "tag-medical", "lng": 117.155, "lat": 39.09}, {"id": 14, "name": "济宁公共卫生医疗中心", "type": "医疗建筑", "district": "山东", "location": "山东", "year": "2024", "partner": "—", "desc": "济宁市公共卫生医疗中心项目定位于鲁南地区的区域公共卫生中心，是集临床诊疗、科研教学、应急救援于一体的三级甲等传染病专科医院。项目占地14.05公顷，建筑面积15.81万平方米，规划床位900张。项目秉持朴素、亲和、高效、安全的疗愈设计理念。项目设计特色鲜明，一是采用平战结合模式，构建双医院运行体系，日常分区独立诊疗，疫情时期可快速整体转换救治功能，大幅提升应急收治能力。二是严守院感防控标准，落实三区两通道规划，科学管控气压梯度，通过分级分诊与流线分流设计，全方位筑牢防疫安全防线。三是优化院区空间营造，运用庭院式布局搭配生态景观，打造亲和的疗愈环境，依托模块化设计提质增效，兼顾人文医疗体验与低碳高效运维。", "awards": ["济南市优秀工程勘察设计二等奖"], "tagClass": "tag-medical", "lng": 116.415, "lat": 35.44}, {"id": 15, "name": "新八大里五福里", "type": "住宅公寓", "district": "天津", "location": "天津", "year": "2018", "partner": "—", "desc": "项目为天津市新八大里第五里，该片区位于文化中心地区和天钢柳林地区之间，是联系城市主副中心的发展纽带，区域优势明显。本项目定位为城市高端居住社区。总建筑面积为42.81万平方米，住宅产品类型为小高层住宅和高层住宅。项目为窄路密网、开放街区、复核社区的天津实践，以院落为居住模式，营造社区活动归属感和诗意栖居。", "awards": ["中国土木工程詹天佑奖优秀住宅小区金奖", "海河杯天津市优秀勘察设计一等奖"], "tagClass": "tag-residential", "lng": 117.11, "lat": 39.11}, {"id": 16, "name": "雄安新区容西片区A单元安置房及配套设施", "type": "住宅公寓", "district": "河北", "location": "河北", "year": "2022", "partner": "—", "desc": "项目位于容西片区西北角，为保障性住房，总建筑面积约151.28万㎡，是容西片区先行建设的样板区，2021年2月开工、2022年10月全面交付入住。项目以宜居、智慧、生态为核心理念，建设标准对标商品房，融合绿色建造技术与创新设计，打造新时代高品质居住标杆。项目坚持党建与业务深度融合，以居民需求为核心，严把质量、攻克技术难题，先后斩获多项省级工程、设计类荣誉，收获居民高度认可与多方表彰。", "awards": ["中国土木工程詹天佑奖优秀住宅小区金奖", "天津市优秀工程勘察设计一等成果"], "tagClass": "tag-residential", "lng": 115.9, "lat": 39.01}, {"id": 17, "name": "天津交通旅馆", "type": "更新改造", "district": "天津", "location": "天津", "year": "2023", "partner": "—", "desc": "天津市交通旅馆（和平路243号）项目的设计初衷是将城市更新与盘活存量相结合，赋予文物保护建筑新的使用功能，重振天津最具历史意义的商业街区，使其恢复百年前的辉煌。将传统与科技完美融合，打造出一个既具有现代感又不失地域特色的空间，同时强调内部空间与城市空间的联系。", "awards": ["缪斯设计奖-建筑再生类别-铂金奖", "年度建筑师奖-Winner大奖", "WDA世界设计奖-Winner大奖", "美国建筑大师奖-建筑改造类别-荣誉奖", "法国巴黎DNA设计奖-建筑改造类别-荣誉奖"], "tagClass": "tag-cultural", "lng": 117.095, "lat": 39.1}, {"id": 18, "name": "吉利大厦提升改造", "type": "更新改造", "district": "天津", "location": "天津", "year": "2024", "partner": "—", "desc": "吉利大厦城市更新项目位于天津核心商圈，通过策划·设计·建设·运营一体化模式推动传统商业焕新。项目聚焦业态重构，打造集泛二次元、沉浸式体验、夜生活体验、产业服务于一体的垂直复合体，引入智慧楼宇与数字技术，构建TOD立体慢行系统与双首层空间，有效激活客流并提升商业价值。改造后租金提升180%，日均客流增长300%，成为青年潮流社交新地标，展现了城市更新中业态融合、空间重塑与运营前置的协同优势。", "awards": ["天津市优秀工程勘察设计（城市更新）一等成果"], "tagClass": "tag-cultural", "lng": 117.095, "lat": 39.1}, {"id": 19, "name": "滨海工人文化宫", "type": "更新改造", "district": "天津", "location": "天津", "year": "2025", "partner": "—", "desc": "滨海新区工人文化宫位于滨海新区核心区，交通便捷，总建筑面积约1.7万平方米，由原残疾人综合服务中心改造而来。项目以绿色低碳、高标准建设、突出两性两化、服务产业工人为目标，实施功能重构与性能提升两大策略。功能上，打造集活动、培训、疗休养、住宿于一体的综合空间，优化大厅、智能展厅、文体综合馆、培训宿舍、餐厅及六大主题活动区，完善无障碍设施与室外交通、景观。性能方面，利用空气源热泵系统，搭配数智能源平台实现节能降耗；升级变电站、消防、给排水、照明，实现智能运维降本增效，致力打造低碳节能、服务职工的示范标杆。", "awards": ["海尔智慧楼宇天津市绿色设计大赛优秀成果"], "tagClass": "tag-cultural", "lng": 117.11, "lat": 39.11}, {"id": 20, "name": "华为旗舰店·天津滨江道", "type": "室内精装", "district": "天津", "location": "天津", "year": "2023", "partner": "—", "desc": "（宣传册原文未提供项目描述文字，仅列项目名与奖项）", "awards": ["法国巴黎DNA设计奖-室内零售类别-大奖", "伦敦设计奖-室内类别-金奖", "意大利A'设计大奖-室内类别-银奖", "IDA美国国际设计大奖-室内类别-荣誉奖", "缪斯设计奖-建筑类别-铂金奖", "美国建筑大师奖-荣誉奖", "法国巴黎DNA设计奖-建筑类别-荣誉提名奖", "年度建筑师奖-WINNER大奖", "WDA世界设计奖-WINNER大奖"], "tagClass": "tag-commercial", "lng": 117.14, "lat": 39.13}, {"id": 21, "name": "华为旗舰店·北京王府井", "type": "室内精装", "district": "北京", "location": "北京", "year": "2024", "partner": "—", "desc": "（宣传册原文未提供项目描述文字，仅列项目名与奖项）", "awards": [], "tagClass": "tag-commercial", "lng": 116.445, "lat": 39.88}, {"id": 22, "name": "华为终端展厅", "type": "室内精装", "district": "—", "location": "—", "year": "2025", "partner": "—", "desc": "（宣传册原文未提供项目描述文字，仅列项目名与奖项）", "awards": [], "tagClass": "tag-commercial", "lng": 117.155, "lat": 39.12}, {"id": 23, "name": "文化中心1.0 - 天津文化中心", "type": "城市设计", "district": "天津", "location": "天津", "year": "2012", "partner": "—", "desc": "天津文化中心是天津市委、市政府为适应经济社会快速发展，体现城市发展定位，按照城市总体规划，整合现有文化资源，完善城市文化功能而规划建设的工程，项目于2009年9月开工，2012年3月竣工，同年5月向社会开放。天津文化中心位于天津中心城区南部，毗邻天津行政中心，迎宾馆和大礼堂。本项目占地约90公顷，新建面积92万平方米，地上47万平方米，地下45万平方米，保留建筑8万平方米，合计总建筑面积100万平方米。规划将其于行政中心、接待中心、小白楼商业商务中心共同构建为中心城区的城市主中心，承担综合职能，完善城市文化服务功能，全面提升城市形象，成为一个功能多元、舒适开放的文化活动中心。在最重要的位置建设公共文化设施建筑群，突出了文化性和人民性，使其成为一个为广大群众服务的、生机勃勃的城市中心。", "awards": ["中国土木工程詹天佑大奖", "全国优秀工程勘察设计奖建筑工程一等奖", "全国优秀城乡规划设计一等奖", "海河杯天津市优秀勘察设计特别奖"], "tagClass": "tag-public", "lng": 117.11, "lat": 39.13}, {"id": 24, "name": "文化中心2.0 - 滨海文化中心", "type": "城市设计", "district": "天津", "location": "天津", "year": "2017", "partner": "—", "desc": "滨海文化中心项目选址于滨海新区中心商务区天碱解放路地区，项目规划总用地面积约为92公顷，其中文化建筑区占地约22.5公顷，公园占地约69.5公顷；城市设计形成两区、两廊、两心、三园、三节点的空间结构，长廊串接文化建筑形成文化综合体的布局形式，由南至北形成演艺中心组团、博美图组团和文博组团。滨海文化中心文化场馆总用地面积约为12公顷，总建筑面积约为31万平方米，其中地上建筑面积约为19万平方米，地下建筑面积约为12万平方米。天津市滨海新区文化中心文化场馆部分主要包括滨海科技馆、滨海现代美术馆、滨海图书馆、滨海东方演艺中心、滨海市民活动中心、滨海文化长廊、地下停车场等。滨海文化中心项目2015年3月一期开工，施工期约为22个月，2016年12月竣工，2017年上半年开馆并试运营。滨海新区文化中心是滨海新区核心区开发建设的重点工程，对改善城市形象、提升服务群众水平、形成城市核心竞争力具有重要意义。", "awards": ["全国优秀城乡规划设计奖表扬奖", "天津市优秀城乡规划设计奖二等奖"], "tagClass": "tag-public", "lng": 117.095, "lat": 39.14}, {"id": 25, "name": "文化中心3.0 - 济宁文化中心", "type": "城市设计", "district": "山东", "location": "山东", "year": "2019", "partner": "RASS事务所（德国）", "desc": "济宁文化中心位于济宁市太白湖东岸。设计立足城市的深厚文化特色与基址的环境特征，营造多元开放、活力生态的城市山水客厅。整体基于西文东商的功能格局，用地西侧面向太白湖，从北至南，由动而静依次布置群众艺术馆、图书馆、博物馆、美术馆；在用地东侧，布置业态多样的商业商务建筑。在文化与商业建筑之间，通过一系列逐渐抬高到2层的公园与广场--文化高地公园，强化了与太白湖的视线联系，形成了看得见山，望得见水的城市开放空间。项目占地53.5公顷，总建筑面积48万平方米，于2015年开工建设，2019年一期试运行。", "awards": ["中国土木工程詹天佑大奖", "中国钢结构金奖工程一等奖", "天津市优秀城乡规划设计奖（城市设计）三等奖", "工程建设科学技术奖-科学技术进步奖二等奖", "山东土木建筑科学技术奖（科技进步奖）一等奖"], "tagClass": "tag-public", "lng": 116.415, "lat": 35.46}, {"id": 26, "name": "天津市泰安道地区城市设计", "type": "城市设计", "district": "天津", "location": "天津", "year": "2012", "partner": "天津华汇、博风建筑、大地天方", "desc": "泰安道地区经历了百余年历史的积淀，兼负城市中心区与历史街区的双重属性。规划完整的保留了现状街巷体系，通过降低过境机动车流量，达到改善步行环境的目的。以西方传统的院落形式展开空间布局，形成五大特色院落。借鉴欧洲典型街区尺度及现状历史建筑布局和高度，坚持修旧如旧的原则，对新建筑的高度、风格及细部处理进行详细的控制，保证街区建筑风格的协调统一。公共区域的景观保持解放北园风貌，并按照历史资料对其进行修缮复原，同时根据不同院落的功能定位提出有针对性的景观设计主题，营造适宜的街道与环境氛围。整体更新改造传承了历史文脉，再现了历史传奇。", "awards": ["新中国成立七十周年系列优秀勘察设计项目"], "tagClass": "tag-public", "lng": 117.11, "lat": 39.12}, {"id": 27, "name": "天津市新八大里地区城市设计", "type": "城市设计", "district": "天津", "location": "天津", "year": "2013", "partner": "—", "desc": "天津新八大里街区位于天津市河西区中北部，西侧紧邻天津市主中心文化中心，东侧紧邻天津市副中心天钢柳林地区，是连接城市主次中心的重要区域。横贯项目中部的黑牛城道是中心城区东部入市通道，也是快速环线的重要组成部分。新八大里地区总用地面积214公顷，新建建筑面积总计373万平方米，其中地上新建建筑面积260万平方米(包括公共建筑102万平方米，居住建筑158万平方米);地下新建建筑面积113万平方米。此外，保留建筑面积33万平方米。", "awards": ["全国优秀城乡规划设计二等奖", "天津市优秀城乡规划设计一等奖"], "tagClass": "tag-public", "lng": 117.14, "lat": 39.11}, {"id": 28, "name": "义乌市异国风情街提升改造工程", "type": "城市设计", "district": "义乌", "location": "义乌", "year": "2016", "partner": "天津华汇、博风建筑、大地天方、中天建都市", "desc": "为打造义乌城市的新蓝图，2016年初，市委市政府决定对全市的社区进行整治、改造、提升，在全面摸清全市39个社区现状和问题的基础上，对每个社区进行提升改造规划，着力整治社区内环境差、基础设施落后、公共设施缺乏、业态混乱等问题。整个异国风情街通过功能的划分和空间的重构，在空间上划分为一心、三坊、十二院,其中一心是指邻里中心、游客中心和社区中心公园，三坊是指三个生活智造坊，十二院是指十二个主题休闲院落。总用地面积：26.33公顷；建筑立面改造：288520平方米；屋顶改造面积：51000平方米；道路改造面积：100907平方米；景观绿化改造：32170平方米；新建景观公园：7275平方米；拆除地面建筑面积：7000平方米；新建地上建筑面积：26500平方米；新建地下建筑面积：43000平方米。在理清现状基础上，对于内部十二院、三坊范围主要采取基础治理、综合治理、有机更新三种方式，对全市社区进行改造提升，其中基础治理包括基础设施改造、雨污分流、绿化环境提升等措施，综合治理包括建筑立面改造、道路基础设施改造、增加公共设施和配套设施措施，有机更新主要是城区内的老旧社区，将采取征收房产、拆除重建等方式，全面打造居住品质良好、商业繁荣，具备义乌特色的商业街区和著名景点。", "awards": ["全国优秀城乡规划设计奖（城市设计）三等奖", "天津市优秀城乡规划设计奖（城市设计）一等奖", "海河杯天津市优秀勘察设计（城市更新）一等奖"], "tagClass": "tag-public", "lng": 120.115, "lat": 29.3}, {"id": 29, "name": "天津第一热电厂城市设计", "type": "城市设计", "district": "天津", "location": "天津", "year": "2022", "partner": "—", "desc": "天津第一热电厂城市更新项目位于河东区海河历史文化保护街区，占地约29.4公顷，保留始建于1937年的主厂房，保护海河岸线典型工业遗存。规划以一园、两组、三院落为骨架，打造开放城市花园承载工业记忆，布局暖黄色古典风格高端河景住宅形成错落天际线，构建坡屋顶商业院落与超高层塔楼，实现新旧建筑对话。项目采用窄路密网优化土地利用，结合地铁4号线设六纬路站成为地铁上盖，既保护海河风貌与历史文脉，又通过商住混合业态完善功能，平衡了保护与开发、理想与现实的需求。", "awards": ["中国土木工程詹天佑奖优秀住宅小区金奖（月辉雅苑）"], "tagClass": "tag-public", "lng": 117.095, "lat": 39.12}, {"id": 30, "name": "雄安新区·容西片区", "type": "总师团队", "district": "河北", "location": "河北", "year": "2017-2021", "partner": "—", "desc": "建设雄安新区是党中央的重大历史性战略决策，是干年大计，国家大事。自天津规划院受邀参加雄安新区规划工作营起，以自己的实际行动践行习近平总书记提出的世界眼光、国际标准、中国特色、高点定位的建设要求。2020年4月20日，我院在容西片区控制性详细规划工作在中国雄安官网正式公开亮相，创造着雄安速度和雄安质量的佳话。容西总师团队的工作，是为保障高质量高标准建设雄安，一张蓝图干到底，在雄安一会三函的机制下，以规划编制团队原班人马，搭建技术平台作为片区建设实施的支撑，提供全流程、多专业技术咨询服务。逐层级地保障控规的可实施性，保障实施方案合规、合理，保障交接界面的衔接接口，保障城市精细化设计。具有属地服务、深耕服务的特征，深度参与具体项目设计，并将该服务向前延伸至项目的申请立项，向后延伸到实施和效果跟踪，这是是对传统规划设计、建设实施以及运营管理模式的突破与创新，也是未来城市规划建设发展变革的趋势。容西A单元住宅及配套项目，总建筑规模151万平方米，地上100万平方米，地下51万平方米。其中住宅部分100多万平方米，包括6个户型、20余种楼型，30余处造型不同的底商。同时包括教育、公服、商业等不同类型的12个公共建筑方案设计。我院同总院的5个部门，及国内7家设计院长期保持高频次协调沟通。为打造真正的雄安质量，我们在扩初开展之前，就横跨市政、交通、景观多个专业部门，将关乎生活品质的垃圾、交通、5G、高品质用水、绿建、海绵、人防等16个技术专项，进行了前置性深化设计，落实到实施层面。", "awards": [], "tagClass": "tag-public", "lng": 115.87, "lat": 39.03}, {"id": 31, "name": "天津迎上合城市环境提升", "type": "总师团队", "district": "天津", "location": "天津", "year": "2024-2025", "partner": "—", "desc": "天津自1404年设卫建城，历经百年发展形成中西合璧、古今交融的独特城市肌理。为服务上合组织国际盛会，践行城市更新国家战略，我院以世界眼光、国际标准、中国风尚、天津特色为核心准则，启动天津城市风貌更新行动。项目立足京津冀城市群核心定位，聚焦城市风貌与管理水平提升，以杭山面海、滨河连湖为空间格局，塑造河海互映、城乡一体、古今交融、中西合璧的城市特色，力争1年内再现天津高光风采，打造国际级迎宾城市样板，彰显大气、文雅、精致、有品位的津城气质。本次天津城市风貌更新行动，以赵春水总建筑师为核心领衔，全面推行总师负责制，构建起覆盖全流程、统筹全要素的专业技术保障体系。团队集结规划、建筑、园林、市政等7大领域专业人才，形成跨专业协同矩阵，打破单一领域设计壁垒，实现风貌、功能、文化的一体化统筹。总师负责制以五全核心特征为抓手，同步配套7项实施导则，建立多部门联审、施工图审查、全程督导机制，以标准化、精细化的技术准则，确保每一处整治、每一处焕新都贴合世界眼光、国际标准、中国风尚、天津特色的核心要求，为项目高质量落地筑牢专业根基。", "awards": [], "tagClass": "tag-public", "lng": 117.08, "lat": 39.1}, {"id": 32, "name": "建筑数字能源管理平台", "type": "数智平台", "district": "—", "location": "—", "year": "—", "partner": "—", "desc": "建筑设计院智慧团队专注于智慧建筑、智慧能源等领域，运用物联网、大数据、AI等前沿技术，为客户提供规划、设计、施工、运维全生命周期解决方案。", "awards": [], "tagClass": "tag-public", "lng": 117.2, "lat": 39.12}, {"id": 33, "name": "天津市人民医院数字后勤运维平台", "type": "数智平台", "district": "天津", "location": "天津", "year": "—", "partner": "—", "desc": "天津市人民医院数字后勤运维平台，包含驾驶舱、设备管理、安全管理、维保管理、能源管理、医疗管理六大模块，500多个功能场景。平台基于BIM三维应用、物联网、大数据技术，通过运维策略顶层设计实现医院后勤多个子系统的集成联动，建立运行数据分析算法实现数据价值挖掘，使数据赋能管理，实现医院后勤运维管理的科学化与精细化。", "awards": [], "tagClass": "tag-public", "lng": 117.095, "lat": 39.1}, {"id": 34, "name": "芦台镇第一中学", "type": "教育建筑", "district": "天津", "location": "天津", "year": "2017", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-public", "lng": 117.125, "lat": 39.11}, {"id": 35, "name": "广播电视大学新校区", "type": "教育建筑", "district": "天津", "location": "天津", "year": "2016", "partner": "—", "desc": "", "awards": ["海河杯天津市优秀勘察设计二等奖"], "tagClass": "tag-public", "lng": 117.17, "lat": 39.13}, {"id": 36, "name": "电子信息职业技术学院", "type": "教育建筑", "district": "天津", "location": "天津", "year": "2011", "partner": "—", "desc": "", "awards": ["海河杯天津市优秀勘察设计特别奖"], "tagClass": "tag-public", "lng": 117.125, "lat": 39.11}, {"id": 37, "name": "滨海新区区委党校", "type": "教育建筑", "district": "天津", "location": "天津", "year": "2015", "partner": "—", "desc": "", "awards": ["海河杯天津市优秀勘察设计二等奖"], "tagClass": "tag-public", "lng": 117.095, "lat": 39.1}, {"id": 38, "name": "红桥妇幼保健", "type": "医疗建筑", "district": "天津", "location": "天津", "year": "2021", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-medical", "lng": 117.08, "lat": 39.1}, {"id": 39, "name": "北辰医院改扩建", "type": "医疗建筑", "district": "天津", "location": "天津", "year": "2013", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-medical", "lng": 117.08, "lat": 39.11}, {"id": 40, "name": "安定医院", "type": "医疗建筑", "district": "天津", "location": "天津", "year": "2011", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-medical", "lng": 117.095, "lat": 39.13}, {"id": 41, "name": "天津市妇女儿童保健中心", "type": "医疗建筑", "district": "天津", "location": "天津", "year": "2007", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-medical", "lng": 117.125, "lat": 39.11}, {"id": 42, "name": "经纬恒润天津研发中心建设（二期）", "type": "办公建筑", "district": "天津", "location": "天津", "year": "2024", "partner": "—", "desc": "", "awards": ["天津市优秀工程勘察设计一等成果", "海尔智慧楼宇天津市绿色设计大赛优秀成果"], "tagClass": "tag-public", "lng": 117.17, "lat": 39.1}, {"id": 43, "name": "河东区人民法院", "type": "办公建筑", "district": "天津", "location": "天津", "year": "2011", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-public", "lng": 117.125, "lat": 39.1}, {"id": 44, "name": "城投大厦", "type": "办公建筑", "district": "天津", "location": "天津", "year": "2011", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-public", "lng": 117.095, "lat": 39.11}, {"id": 45, "name": "今晚传媒大厦", "type": "办公建筑", "district": "天津", "location": "天津", "year": "2009", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-public", "lng": 117.08, "lat": 39.13}, {"id": 46, "name": "兖州安和源", "type": "住宅公寓", "district": "山东", "location": "山东", "year": "2025", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-residential", "lng": 116.415, "lat": 35.44}, {"id": 47, "name": "中海·秀湖苑", "type": "住宅公寓", "district": "天津", "location": "天津", "year": "2024", "partner": "—", "desc": "", "awards": ["天津市优秀工程勘察设计二等成果", "海河杯天津市优秀勘察设计人防专项三等成果"], "tagClass": "tag-residential", "lng": 117.095, "lat": 39.12}, {"id": 48, "name": "大寺新家园F地块公租房", "type": "住宅公寓", "district": "天津", "location": "天津", "year": "2020", "partner": "—", "desc": "", "awards": ["中国土木工程詹天佑奖优秀住宅小区金奖", "海河杯天津市优秀勘察设计一等奖"], "tagClass": "tag-residential", "lng": 117.125, "lat": 39.12}, {"id": 49, "name": "绿道丹庭", "type": "住宅公寓", "district": "天津", "location": "天津", "year": "2015", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-residential", "lng": 117.17, "lat": 39.13}, {"id": 50, "name": "济宁市兖州市民中心城市设计", "type": "更新改造", "district": "山东", "location": "山东", "year": "2017", "partner": "—", "desc": "", "awards": ["天津市规划行业优秀案例集第二层次作品"], "tagClass": "tag-cultural", "lng": 116.37, "lat": 35.46}, {"id": 51, "name": "西开教堂区域保护性规划", "type": "更新改造", "district": "天津", "location": "天津", "year": "2008", "partner": "—", "desc": "", "awards": ["天津市优秀城乡规划设计奖二等奖"], "tagClass": "tag-cultural", "lng": 117.14, "lat": 39.11}, {"id": 52, "name": "天钢柳林城市副中心城市设计", "type": "更新改造", "district": "天津", "location": "天津", "year": "2008", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-cultural", "lng": 117.125, "lat": 39.1}, {"id": 53, "name": "中新能配棉智能产业园（二期）", "type": "城市设计", "district": "山东", "location": "山东", "year": "2023", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-public", "lng": 116.37, "lat": 35.46}, {"id": 54, "name": "中新能配棉智能产业园", "type": "城市设计", "district": "山东", "location": "山东", "year": "2023", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-public", "lng": 116.385, "lat": 35.47}, {"id": 55, "name": "华北集团宁河区潘庄工业园", "type": "城市设计", "district": "天津", "location": "天津", "year": "2022", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-public", "lng": 117.155, "lat": 39.12}, {"id": 56, "name": "大邱庄镇农业综合开发-白公坨", "type": "城市设计", "district": "天津", "location": "天津", "year": "2025", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-public", "lng": 117.2, "lat": 39.1}, {"id": 57, "name": "大邱庄镇农业综合开发-蓝莓小镇", "type": "城市设计", "district": "天津", "location": "天津", "year": "2025", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-public", "lng": 117.155, "lat": 39.09}, {"id": 58, "name": "大邱庄镇农业综合开发-李八庄", "type": "城市设计", "district": "天津", "location": "天津", "year": "2025", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-public", "lng": 117.125, "lat": 39.09}, {"id": 59, "name": "民族文化宫", "type": "城市设计", "district": "天津", "location": "天津", "year": "2020", "partner": "—", "desc": "", "awards": ["海河杯天津市优秀勘察设计三等奖"], "tagClass": "tag-public", "lng": 117.11, "lat": 39.1}, {"id": 60, "name": "南开大学新校区历史复建区", "type": "城市设计", "district": "天津", "location": "天津", "year": "2019", "partner": "—", "desc": "", "awards": [], "tagClass": "tag-public", "lng": 117.11, "lat": 39.12}, {"id": 61, "name": "滨海监狱迁建项目", "type": "城市设计", "district": "天津", "location": "天津", "year": "2017", "partner": "—", "desc": "", "awards": ["海河杯天津市优秀勘察设计二等奖"], "tagClass": "tag-public", "lng": 117.125, "lat": 39.1}];
 
+const awards = [{"category": "建筑设计类", "level": "国家级", "project": "华明示范小城镇建设项目", "name": "中国土木工程詹天佑大奖", "year": "2009"}, {"category": "建筑设计类", "level": "国家级", "project": "天房美域小区", "name": "中国土木工程詹天佑奖优秀住宅小区金奖", "year": "2011"}, {"category": "建筑设计类", "level": "国家级", "project": "天津市秋怡家园", "name": "中国首届保障性住房设计三等奖、最佳经济适用房设计奖", "year": "2011"}, {"category": "建筑设计类", "level": "国家级", "project": "天津市大寺新家园F地块公租房", "name": "全国优秀工程勘察设计奖全国保障性住房优秀设计专项二等奖", "year": "2012"}, {"category": "建筑设计类", "level": "国家级", "project": "天津和苑住区雅和园·尊和园·尚和园定向安置经济适用房", "name": "中国土木工程詹天佑奖优秀住宅小区金奖", "year": "2013"}, {"category": "建筑设计类", "level": "国家级", "project": "天津文化中心总体设计", "name": "全国优秀工程勘察设计奖建筑工程一等奖", "year": "2013"}, {"category": "建筑设计类", "level": "国家级", "project": "天津文化中心", "name": "中国土木工程詹天佑大奖", "year": "2014"}, {"category": "建筑设计类", "level": "国家级", "project": "天房天房美域豪庭", "name": "中国土木工程詹天佑奖优秀住宅小区金奖", "year": "2014"}, {"category": "建筑设计类", "level": "国家级", "project": "天津文化中心-图书馆", "name": "全国优秀工程勘察设计奖建筑工程一等奖", "year": "2015"}, {"category": "建筑设计类", "level": "国家级", "project": "泰安道五大院项目", "name": "新中国成立七十周年系列优秀勘察设计项目", "year": "2019"}, {"category": "建筑设计类", "level": "国家级", "project": "天津八大里街区四信里、五福里住宅项目", "name": "中国土木工程詹天佑奖优秀住宅小区金奖", "year": "2019"}, {"category": "建筑设计类", "level": "国家级", "project": "天津市滨海新区文化中心（一期）项目文化场馆部分", "name": "全国优秀工程勘察设计奖优秀（公共）建筑设计一等奖", "year": "2019"}, {"category": "建筑设计类", "level": "国家级", "project": "城市设计整体性管理实施方法建构与实践应用", "name": "华夏建设科学技术奖", "year": "2019"}, {"category": "建筑设计类", "level": "国家级", "project": "济宁市文化中心钢结构工程", "name": "中国钢结构金奖工程一等奖", "year": "2019"}, {"category": "建筑设计类", "level": "国家级", "project": "月辉雅苑（一热电）", "name": "中国土木工程詹天佑奖优秀住宅小区金奖", "year": "2022"}, {"category": "建筑设计类", "level": "国家级", "project": "济宁文化中心", "name": "中国土木工程詹天佑奖", "year": "2023"}, {"category": "建筑设计类", "level": "国家级", "project": "济宁文化中心", "name": "工程建设科学技术奖-科学技术进步奖二等奖", "year": "2023"}, {"category": "建筑设计类", "level": "国家级", "project": "基于齐鲁孔孟文化的大型文化综合体设计施工综合技术", "name": "建筑装饰行业科技创新成果奖一等奖", "year": "2023"}, {"category": "建筑设计类", "level": "国家级", "project": "地域文化特色大型仿古展馆类建筑设计及施工集成技术", "name": "工程建设科学技术奖-科学技术进步奖一等奖", "year": "2023"}, {"category": "建筑设计类", "level": "国家级", "project": "济宁文化中心", "name": "2022-2023年度“建筑应用创新大奖”", "year": "2023"}, {"category": "建筑设计类", "level": "国家级", "project": "容西片区A单元安置房及配套设施项目", "name": "中国土木工程詹天佑奖优秀住宅小区金奖", "year": "2024"}, {"category": "建筑设计类", "level": "国家级", "project": "天津市人民医院三期工程", "name": "国家紧急医学救援基地项目获公建类三等奖", "year": "2024"}, {"category": "建筑设计类", "level": "国家级", "project": "人民医院三期住院楼", "name": "人文医疗建筑奖-全国优秀建筑设计奖", "year": "2025"}, {"category": "建筑设计类", "level": "省部级", "project": "宁强县天津中学", "name": "海河杯天津市优秀勘察设计二等奖", "year": "2011"}, {"category": "建筑设计类", "level": "省部级", "project": "海河教育园高职校区--新建天津电子信息职业技术学院", "name": "海河杯天津市优秀勘察设计特别奖", "year": "2012"}, {"category": "建筑设计类", "level": "省部级", "project": "秋怡家园住宅工程", "name": "海河杯天津市优秀勘察设计二等奖", "year": "2012"}, {"category": "建筑设计类", "level": "省部级", "project": "文化中心总体设计", "name": "海河杯天津市优秀勘察设计特别奖", "year": "2013"}, {"category": "建筑设计类", "level": "省部级", "project": "天津图书馆", "name": "海河杯天津市优秀勘察设计特别奖", "year": "2013"}, {"category": "建筑设计类", "level": "省部级", "project": "泰安道四号院", "name": "海河杯天津市优秀勘察设计一等奖", "year": "2015"}, {"category": "建筑设计类", "level": "省部级", "project": "泰安道二号院", "name": "海河杯天津市优秀勘察设计二等奖", "year": "2015"}, {"category": "建筑设计类", "level": "省部级", "project": "新建天津青年职业学院工程", "name": "海河杯天津市优秀勘察设计一等奖", "year": "2016"}, {"category": "建筑设计类", "level": "省部级", "project": "滨海新区区委党校", "name": "海河杯天津市优秀勘察设计二等奖", "year": "2016"}, {"category": "建筑设计类", "level": "省部级", "project": "浯水道铁路职工住宅工程", "name": "海河杯天津市优秀勘察设计二等奖", "year": "2017"}, {"category": "建筑设计类", "level": "省部级", "project": "天津市宜兴蚌埠城中村B地块一期（宜景园）项目", "name": "海河杯天津市优秀勘察设计二等奖", "year": "2017"}, {"category": "建筑设计类", "level": "省部级", "project": "天津广播电视大学新校区", "name": "海河杯天津市优秀勘察设计二等奖", "year": "2017"}, {"category": "建筑设计类", "level": "省部级", "project": "国鑫大厦", "name": "海河杯天津市优秀勘察设计三等奖", "year": "2017"}, {"category": "建筑设计类", "level": "省部级", "project": "五福里", "name": "海河杯天津市优秀勘察设计一等奖", "year": "2018"}, {"category": "建筑设计类", "level": "省部级", "project": "天津市滨海监狱迁建项目", "name": "海河杯天津市优秀勘察设计二等奖", "year": "2018"}, {"category": "建筑设计类", "level": "省部级", "project": "天津人民医院扩建三期（急救综合楼内装设计）", "name": "海河杯天津市优秀勘察设计一等奖", "year": "2018"}, {"category": "建筑设计类", "level": "省部级", "project": "天津人民医院扩建三期工程急救综合楼", "name": "海河杯天津市优秀勘察设计三等奖", "year": "2018"}, {"category": "建筑设计类", "level": "省部级", "project": "天津市滨海新区文化中心（一期）项目文化场馆部分", "name": "海河杯天津市优秀勘察设计一等奖", "year": "2019"}, {"category": "建筑设计类", "level": "省部级", "project": "济宁市文化中心群艺馆", "name": "海河杯天津市优秀勘察设计二等奖", "year": "2019"}, {"category": "建筑设计类", "level": "省部级", "project": "济宁市文化中心文化馆", "name": "海河杯天津市优秀勘察设计一等奖", "year": "2020"}, {"category": "建筑设计类", "level": "省部级", "project": "海瀛商务楼", "name": "海河杯天津市优秀勘察设计建筑工程公建三等奖", "year": "2020"}, {"category": "建筑设计类", "level": "省部级", "project": "济宁市文化中心·群众艺术馆·高地公园", "name": "BIM·CIM应用成熟度创新大赛优秀奖", "year": "2020"}, {"category": "建筑设计类", "level": "省部级", "project": "天津市第四中学迁址扩建工程", "name": "海河杯天津市优秀勘察设计一等奖", "year": "2021"}, {"category": "建筑设计类", "level": "省部级", "project": "天津市民族文化宫", "name": "海河杯天津市优秀勘察设计三等奖", "year": "2021"}, {"category": "建筑设计类", "level": "省部级", "project": "新八大里片区五里小学", "name": "海河杯天津市优秀勘察设计建筑工程公建三等奖", "year": "2021"}, {"category": "建筑设计类", "level": "省部级", "project": "济宁市群众艺术馆内装", "name": "海河杯天津市优秀勘察设计一等奖", "year": "2021"}, {"category": "建筑设计类", "level": "省部级", "project": "济宁文化中心", "name": "山东土木建筑科学技术奖（科技进步奖）一等奖", "year": "2022"}, {"category": "建筑设计类", "level": "省部级", "project": "济宁市文化中心高地公园建筑", "name": "海河杯天津市优秀勘察设计一等奖", "year": "2022"}, {"category": "建筑设计类", "level": "省部级", "project": "天津市大寺新家园", "name": "海河杯天津市优秀勘察设计一等奖", "year": "2022"}, {"category": "建筑设计类", "level": "省部级", "project": "天津市城市规划设计研究院科研楼室内改造项目", "name": "海河杯天津市优秀勘察设计二等奖", "year": "2022"}, {"category": "建筑设计类", "level": "省部级", "project": "诚悦嘉园", "name": "海河杯天津市优秀勘察设计一等奖", "year": "2023"}, {"category": "建筑设计类", "level": "省部级", "project": "王稳庄中学迁建工程", "name": "海河杯天津市优秀勘察设计二等奖", "year": "2023"}, {"category": "建筑设计类", "level": "省部级", "project": "文瑞家园", "name": "海河杯天津市优秀勘察设计二等奖", "year": "2023"}, {"category": "建筑设计类", "level": "省部级", "project": "义乌市异国风情街精品街改造", "name": "海河杯天津市优秀勘察设计一等奖", "year": "2023"}, {"category": "建筑设计类", "level": "省部级", "project": "天津市人民医院扩建三期住院楼工程", "name": "海河杯天津市优秀勘察设计二等奖", "year": "2023"}, {"category": "建筑设计类", "level": "省部级", "project": "地域文化特色大型仿古展馆类建筑设计及施工集成技术", "name": "山东土木建筑科学技术奖（科技进步奖）三等奖", "year": "2023"}, {"category": "建筑设计类", "level": "省部级", "project": "华为旗舰店·天津滨江道", "name": "天津城市更新行业标杆项目金橙奖（有机更新·历史建筑类）", "year": "2023"}, {"category": "建筑设计类", "level": "省部级", "project": "天津市人民医院扩建三期工程", "name": "天津市BIM综合应用一等成果", "year": "2024"}, {"category": "建筑设计类", "level": "省部级", "project": "济宁市公共卫生医疗中心", "name": "济南市优秀工程勘察设计", "year": "2024"}, {"category": "建筑设计类", "level": "省部级", "project": "容西片区A单元安置房及配套设施项目（RX01-02街区）", "name": "天津市优秀工程勘察设计一等成果", "year": "2024"}, {"category": "建筑设计类", "level": "省部级", "project": "天津市交通旅馆（和平路243号）工程", "name": "海河杯天津市优秀勘察设计公建二等成果", "year": "2024"}, {"category": "建筑设计类", "level": "省部级", "project": "济宁市文化产业园建设项目人才安置公寓", "name": "海河杯天津市优秀勘察设计公建三等成果（联合申报）", "year": "2024"}, {"category": "建筑设计类", "level": "省部级", "project": "中海公园城秀湖苑人防工程", "name": "海河杯天津市优秀勘察设计人防专项三等成果", "year": "2024"}, {"category": "建筑设计类", "level": "省部级", "project": "经纬恒润天津研发中心", "name": "天津市优秀工程勘察设计一等成果", "year": "2025"}, {"category": "建筑设计类", "level": "省部级", "project": "中海秀湖苑", "name": "天津市优秀工程勘察设计二等成果", "year": "2025"}, {"category": "建筑设计类", "level": "省部级", "project": "吉利大厦提升改造项目", "name": "天津市优秀工程勘察设计一等成果", "year": "2025"}, {"category": "建筑设计类", "level": "省部级", "project": "天津市滨海新区工人文化宫", "name": "海尔智慧楼宇天津市绿色设计大赛优秀成果", "year": "2025"}, {"category": "建筑设计类", "level": "省部级", "project": "经纬恒润天津研发中心", "name": "海尔智慧楼宇天津市绿色设计大赛优秀成果", "year": "2025"}, {"category": "建筑设计类", "level": "省部级", "project": "天津市人民医院扩建三期住院楼工程", "name": "第十四届“创新杯”BIM应用大赛医疗建筑BIM应用三等奖", "year": "2025"}, {"category": "建筑设计类", "level": "省部级", "project": "天津市人民医院扩建三期工程（住院楼）", "name": "天津市勘察设计协会优秀设计一等水平", "year": "2026"}, {"category": "规划类", "level": "国家级", "project": "天津市东丽区华明镇示范小城镇规划-西区修建性详细规划", "name": "全国优秀村镇规划设计一等奖", "year": "2009"}, {"category": "规划类", "level": "国家级", "project": "帝景豪庭住宅小区", "name": "中国土木工程詹天佑奖优秀住宅小区优秀规划奖", "year": "2010"}, {"category": "规划类", "level": "国家级", "project": "宜景园", "name": "全国人居经典建筑规划设计方案竞赛建筑金奖", "year": "2011"}, {"category": "规划类", "level": "国家级", "project": "昆俞家园", "name": "广厦奖", "year": "2012"}, {"category": "规划类", "level": "国家级", "project": "天津历史风貌街区保护与利用", "name": "中国土木工程詹天佑奖优秀住宅小区优秀金奖", "year": "2014"}, {"category": "规划类", "level": "国家级", "project": "天津新八大里地区城市设计", "name": "全国优秀城乡规划设计二等奖", "year": "2015"}, {"category": "规划类", "level": "国家级", "project": "天津市滨海新区文化中心（一期）文化场馆部分修建性详细规划", "name": "全国优秀城乡规划设计奖表扬奖", "year": "2017"}, {"category": "规划类", "level": "国家级", "project": "浙江省义乌市异国风情街整体改造提升规划", "name": "全国优秀城乡规划设计奖（城市设计）三等奖", "year": "2020"}, {"category": "规划类", "level": "国家级", "project": "城貌智绘ArchVista城市建筑风貌数字治理框架及管控平台", "name": "2025数字中国创新大赛数字城市赛道数字城市百景奖", "year": "2025"}, {"category": "规划类", "level": "国家级", "project": "天津市大寺新家园F地块公租房", "name": "全国人居经典建筑规划设计综合大奖", "year": ""}, {"category": "规划类", "level": "省部级", "project": "天津五大道历史文化街区保护与更新规划研究", "name": "天津市优秀城乡规划设计一等奖", "year": "2013"}, {"category": "规划类", "level": "省部级", "project": "天津市双青新家园地区控制性详细规划", "name": "天津市优秀城乡规划设计三等奖", "year": "2013"}, {"category": "规划类", "level": "省部级", "project": "西开教堂区域保护性规划", "name": "天津市优秀城乡规划设计奖二等奖", "year": "2015"}, {"category": "规划类", "level": "省部级", "project": "义乌市异国风情街提升改造工程", "name": "天津市优秀城乡规划设计奖（城市设计）一等奖", "year": "2019"}, {"category": "规划类", "level": "省部级", "project": "山东省济宁市文化中心城市设计", "name": "天津市优秀城乡规划设计奖（城市设计）三等奖", "year": "2020"}, {"category": "规划类", "level": "省部级", "project": "兖州区文化中心", "name": "天津市规划行业优秀案例集第二层次作品", "year": "2021"}, {"category": "规划类", "level": "省部级", "project": "河北省城市建筑风貌设计编制导则（试行）", "name": "天津市规划行业优秀案例集第三层次作品", "year": "2021"}, {"category": "规划类", "level": "省部级", "project": "天津市红桥区西站商务区西于庄片区城市设计", "name": "天津市规划行业优秀案例集第三层次作品", "year": "2021"}, {"category": "规划类", "level": "省部级", "project": "青筑未来·乐居样板——雄安新区青年安居与社区共治创新实践", "name": "第七届“青年规划师眼中的京津冀协同发展”最佳作品（一等奖）", "year": "2025"}, {"category": "规划类", "level": "省部级", "project": "时空叠变·津脉焕新——地标建筑的场景活化与产业共生实践", "name": "第七届“青年规划师眼中的京津冀协同发展”创新作品（二等奖）", "year": "2025"}, {"category": "规划类", "level": "省部级", "project": "产教协同与空间适配——以天津空港综保区项目为例", "name": "第七届“青年规划师眼中的京津冀协同发展”最佳作品", "year": "2025"}, {"category": "规划类", "level": "省部级", "project": "天津市容环境综合治理总体规划策划", "name": "2024年度天津市优秀工程咨询成果二等奖", "year": "2025"}, {"category": "规划类", "level": "省部级", "project": "城市风貌塑造中的文化基因活化路径——以鸡泽县为例", "name": "第八届“青年规划师眼中的京津冀协同发展”二类作品", "year": "2026"}, {"category": "国际奖项", "level": "国际", "project": "天津交通旅馆", "name": "缪斯设计奖-建筑再生类别-铂金奖", "year": "2023"}, {"category": "国际奖项", "level": "国际", "project": "天津交通旅馆", "name": "年度建筑师奖-Winner大奖", "year": "2023"}, {"category": "国际奖项", "level": "国际", "project": "天津交通旅馆", "name": "WDA世界设计奖-Winner大奖", "year": "2023"}, {"category": "国际奖项", "level": "国际", "project": "天津交通旅馆", "name": "美国建筑大师奖-建筑改造类别-荣誉奖", "year": "2023"}, {"category": "国际奖项", "level": "国际", "project": "天津交通旅馆", "name": "法国巴黎DNA设计奖-建筑改造类别-荣誉奖", "year": "2023"}, {"category": "国际奖项", "level": "国际", "project": "华为旗舰店·天津滨江道", "name": "法国巴黎DNA设计奖-室内零售类别-大奖", "year": "2023"}, {"category": "国际奖项", "level": "国际", "project": "华为旗舰店·天津滨江道", "name": "伦敦设计奖-室内类别-金奖", "year": "2023"}, {"category": "国际奖项", "level": "国际", "project": "华为旗舰店·天津滨江道", "name": "意大利A'设计大奖-室内类别-银奖", "year": "2023"}, {"category": "国际奖项", "level": "国际", "project": "华为旗舰店·天津滨江道", "name": "IDA美国国际设计大奖-室内类别-荣誉奖", "year": "2023"}, {"category": "国际奖项", "level": "国际", "project": "华为旗舰店·天津滨江道", "name": "缪斯设计奖-建筑类别-铂金奖", "year": "2024"}, {"category": "国际奖项", "level": "国际", "project": "华为旗舰店·天津滨江道", "name": "美国建筑大师奖-荣誉奖", "year": "2024"}, {"category": "国际奖项", "level": "国际", "project": "华为旗舰店·天津滨江道", "name": "法国巴黎DNA设计奖-建筑类别-荣誉提名奖", "year": "2024"}, {"category": "国际奖项", "level": "国际", "project": "华为旗舰店·天津滨江道", "name": "年度建筑师奖-WINNER大奖", "year": "2025"}, {"category": "国际奖项", "level": "国际", "project": "华为旗舰店·天津滨江道", "name": "WDA世界设计奖-WINNER大奖", "year": "2025"}];
+
+const standards = [{"type": "国家标准", "name": "住宅设计规范", "code": "GB50096-2011", "role": "参编"}, {"type": "国家标准/导则", "name": "民用建筑工程建筑师负责制实施导则", "code": "—", "role": "参编"}, {"type": "地方标准", "name": "建筑工程规划管理技术规范", "code": "DB12/T 1040—2021", "role": "主编"}, {"type": "地方标准", "name": "天津市无障碍设计标准", "code": "DB/T 29-309-2025", "role": "主编"}, {"type": "地方标准", "name": "天津市儿童友好空间测评指标体系", "code": "—", "role": "主编"}, {"type": "地方标准", "name": "天津市儿童友好空间设计指南", "code": "—", "role": "参编"}, {"type": "地方标准", "name": "天津市住宅设计标准", "code": "DB/T 29-22-2024", "role": "主编"}, {"type": "地方标准", "name": "城镇社区公共服务设施规划设计指南", "code": "DB12T 1339-2024", "role": "主编"}, {"type": "地方标准", "name": "建设项目用地策划技术规范", "code": "DB12T 1389-2024", "role": "主编"}, {"type": "地方标准", "name": "新建民用建筑工程消防设计文件编制指南", "code": "—", "role": "主编"}, {"type": "地方标准", "name": "天津市特殊建设工程消防设计审查常见问题疑难解析", "code": "—", "role": "参编"}, {"type": "导则图集", "name": "天津市保障性住房设计导则", "code": "—", "role": "主编"}, {"type": "导则图集", "name": "天津市保障性住房设计标准图集", "code": "—", "role": "主编"}, {"type": "导则图集", "name": "天津市残运会无障碍设计与改造技术导则", "code": "—", "role": "主编"}, {"type": "导则图集", "name": "建筑与市政工程无障碍设施", "code": "24JZ-6", "role": "主编"}, {"type": "导则图集", "name": "天津市装配式建筑预制外墙板标准图集", "code": "—", "role": "主编"}, {"type": "导则图集", "name": "钢筋混凝土框架结构", "code": "12G02-1", "role": "参编"}];
+
+const books = [{"id": 1, "type": "著作", "title": "济宁文化中心诞生全纪录", "author": "赵春水（主编）", "publisher": "《城市·环境·设计》(UED) 杂志 专刊", "year": "2015", "isbn": "无（杂志专刊，非独立书号）", "desc": "济宁文化中心项目从策划到建成的全过程设计实录，收录于《城市·环境·设计》(UED) 杂志专刊（与滨海文化中心同为该系列「诞生全记录」特辑）。"}, {"id": 2, "type": "著作", "title": "滨海文化中心诞生全纪录", "author": "赵春水（主编）", "publisher": "《城市·环境·设计》(UED) 杂志 2017年3+4月合刊特辑", "year": "2017", "isbn": "无（杂志特辑，非独立书号）", "desc": "天津滨海文化中心从国际方案征集（扎哈·哈迪德、伯纳德·屈米、MVRDV、gmp、华汇等）到建成的全过程记录特辑。"}, {"id": 3, "type": "著作", "title": "思享——设计师札记", "author": "赵春水 主编", "publisher": "江苏凤凰科学技术出版社（原江苏科学技术出版社）", "year": "2015.08", "isbn": "978-7-5537-3619-8", "desc": "16个建筑、规划项目心路历程的详细解读，以项目为主线剖析设计思考过程，是有温度、有深度的设计师札记。"}, {"id": 4, "type": "著作", "title": "红房子——泰安道丽思卡尔顿酒店全过程设计", "author": "赵春水 主编", "publisher": "中国建筑工业出版社", "year": "2019（2020印）", "isbn": "978-7-112-20948-4", "desc": "天津泰安道丽思卡尔顿酒店（红房子）全过程设计实录。"}, {"id": 5, "type": "著作", "title": "白房子——天津市图书馆全过程设计", "author": "赵春水 主编", "publisher": "中国建筑工业出版社", "year": "2019", "isbn": "978-7-112-22616-0", "desc": "天津市图书馆（白房子）全过程设计实录。"}, {"id": 6, "type": "著作", "title": "十年十筑", "author": "赵春水 著", "publisher": "江苏凤凰科学技术出版社", "year": "2022.10", "isbn": "978-7-5713-2775-0", "desc": "精选天津城市设计规划研究院建筑分院十年来的十个建筑作品（滨海图书馆、济宁文化中心、天津文化中心图书馆等），剖析设计者思考全过程。"}, {"id": 7, "type": "著作", "title": "十年十划", "author": "赵春水 著", "publisher": "江苏凤凰科学技术出版社", "year": "2022.10", "isbn": "978-7-5713-2778-1", "desc": "从完成的百余个规划成果中精选10个代表作品（公共建筑集群类、住宅社区类、城市更新类），归纳规划策略与技术路径。"}, {"id": 8, "type": "著作", "title": "赵春水：城市心象风景", "author": "赵春水（UED 132期专辑主角）", "publisher": "《城市·环境·设计》(UED) 杂志 第132期（2021年04期）特辑", "year": "2021.04", "isbn": "无（杂志特刊，非独立书号）", "desc": "赵春水建筑师近十年文化中心产品线（天津文化中心1.0到兖州文化中心4.0）及城市视角建筑实践的专辑，涵盖天津文化中心图书馆、滨海图书馆、滨海科技馆、济宁群艺馆、泰安道丽思卡尔顿酒店等；收录多位学者评论文章，深入解读其设计作品与理念。"}, {"id": 9, "type": "译作", "title": "赫尔佐格·德梅隆（第二集）\n即《赫尔佐格与德梅隆全集（第2卷 1989—1991年）》", "author": "徐然、赵春水、张育南、王鑫 译\n(德)格哈德·马克 编著", "publisher": "中国建筑工业出版社", "year": "2010.09", "isbn": "978-7-112-11470-2", "desc": "瑞士建筑事务所赫尔佐格与德梅隆作品全集第二卷（1989—1991年），系统收录该时期代表作品。"}, {"id": 10, "type": "译作", "title": "图解都市构想力\n即《图解都市空间构想力》", "author": "赵春水 译\n[日]东京大学都市设计研究室 编", "publisher": "江苏凤凰科学技术出版社", "year": "2019.03", "isbn": "978-7-5537-9805-9", "desc": "都市空间设计图解理论研究，以图解方式解析城市设计构想力。"}, {"id": 11, "type": "译作", "title": "桢文彦的建筑哲学——关于城市与建筑的思考", "author": "赵春水 译\n[日]槙文彦、松隈洋 著", "publisher": "江苏凤凰科学技术出版社", "year": "2018.01", "isbn": "978-7-5537-8587-5", "desc": "日本建筑师槙文彦关于城市与建筑思考的建筑哲学论述。"}, {"id": 12, "type": "译作", "title": "建筑少年的梦", "author": "赵春水、史书培 译\n[日]布野修司 著", "publisher": "中国建筑工业出版社", "year": "2023.09/10", "isbn": "978-7-112-28717-8", "desc": "日本建筑学者布野修司关于建筑与城市的随笔/访谈集。"}];
+
+// ====== 页面切换 ======
+function switchPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    event.target.classList.add('active');
+    
+    if (page === 'map' && !map) {
+        initMap();
+    }
+}
+
+// ====== 项目地图 ======
 let map;
 let markers = [];
 let currentFilter = 'all';
@@ -465,7 +775,6 @@ function initMap() {
         center: [117.20, 39.13],
         mapStyle: 'amap://styles/dark'
     });
-
     renderProjects();
     updateStats();
 }
@@ -478,15 +787,13 @@ function renderProjects() {
         ? projects
         : projects.filter(p => p.type === currentFilter);
 
-    // 按类别分组
     const grouped = {};
     filtered.forEach(proj => {
         if (!grouped[proj.type]) grouped[proj.type] = [];
         grouped[proj.type].push(proj);
     });
 
-    // 类别顺序
-    const typeOrder = ['公共建筑','住宅','城市更新','医疗','商业'];
+    const typeOrder = ['文化建筑','酒店建筑','办公建筑','教育建筑','医疗建筑','住宅公寓','更新改造','室内精装','城市设计','总师团队','数智平台'];
     const sortedTypes = typeOrder.filter(t => grouped[t]);
 
     sortedTypes.forEach((type, idx) => {
@@ -515,17 +822,18 @@ function renderProjects() {
 
             let awardsHtml = '';
             if (proj.awards && proj.awards.length > 0) {
-                const awardClass = proj.awards[0].includes('一等') || proj.awards[0].includes('最佳') || proj.awards[0].includes('一等奖')
-                    ? 'award-gold'
-                    : proj.awards[0].includes('二等') || proj.awards[0].includes('二等奖')
-                    ? 'award-silver'
-                    : 'award-bronze';
-                awardsHtml = `<div class="award-row">${proj.awards.map(a => `<span class="award-tag ${awardClass}">${a}</span>`).join('')}</div>`;
+                const awardClass = proj.awards[0].includes('一等') || proj.awards[0].includes('最佳')
+                    ? 'award-gold' : 'award-national';
+                awardsHtml = `<div class="award-row">${proj.awards.slice(0,2).map(a => `<span class="award-tag ${awardClass}">${a}</span>`).join('')}</div>`;
             }
+
+            const partnerInfo = proj.partner && proj.partner !== '—' ? ` · ${proj.partner}` : '';
+            const yearInfo = proj.year ? ` · ${proj.year}` : '';
 
             card.innerHTML = `
                 <div class="project-name">${proj.name}</div>
-                <div class="project-meta">📍 ${proj.district} · ${proj.scale}</div>
+                <div class="project-meta">📍 ${proj.district}${yearInfo}${partnerInfo}</div>
+                <div class="project-desc">${proj.desc.substring(0,80)}${proj.desc.length > 80 ? '...' : ''}</div>
                 <span class="project-tag ${proj.tagClass}">${proj.type}</span>
                 ${awardsHtml}
             `;
@@ -545,7 +853,7 @@ function renderProjects() {
         listEl.appendChild(group);
     });
 
-    renderMarkers(filtered);
+    if (map) renderMarkers(filtered);
 }
 
 function renderMarkers(projectList) {
@@ -568,14 +876,16 @@ function renderMarkers(projectList) {
             awardsHtml = `<div class="info-awards"><strong>获奖：</strong>${proj.awards.join('<br>')}</div>`;
         }
 
+        const partnerInfo = proj.partner && proj.partner !== '—' ? `<div class="info-row"><span>合作：</span>${proj.partner}</div>` : '';
+
         const infoContent = `
             <div class="info-window">
                 <div class="info-title">${proj.name}</div>
                 <div class="info-row"><span>类型：</span>${proj.type}</div>
                 <div class="info-row"><span>区域：</span>${proj.district}</div>
-                <div class="info-row"><span>规模：</span>${proj.scale}</div>
-                <div class="info-row"><span>状态：</span>${proj.status}</div>
-                <div class="info-row"><span>描述：</span>${proj.desc}</div>
+                ${partnerInfo}
+                <div class="info-row"><span>年份：</span>${proj.year}</div>
+                <div class="info-row"><span>描述：</span>${proj.desc.substring(0,120)}${proj.desc.length > 120 ? '...' : ''}</div>
                 ${awardsHtml}
             </div>
         `;
@@ -598,7 +908,6 @@ function renderMarkers(projectList) {
 function focusProject(proj) {
     map.setZoomAndCenter(14, [proj.lng, proj.lat]);
     highlightCard(proj.id);
-
     const marker = markers.find(m => {
         const pos = m.getPosition();
         return Math.abs(pos.lng - proj.lng) < 0.0001 && Math.abs(pos.lat - proj.lat) < 0.0001;
@@ -611,7 +920,6 @@ function highlightCard(id) {
     const card = document.querySelector(`.project-card[data-id="${id}"]`);
     if (card) {
         card.classList.add('active');
-        // 确保父级类别已展开
         const content = card.closest('.category-content');
         if (content && !content.classList.contains('expanded')) {
             content.classList.add('expanded');
@@ -628,7 +936,7 @@ function highlightCard(id) {
 
 function filterProjects(type) {
     currentFilter = type;
-    document.querySelectorAll('.filter-btn').forEach(btn => {
+    document.querySelectorAll('#page-map .filter-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.filter === type);
     });
     renderProjects();
@@ -642,7 +950,165 @@ function updateStats() {
     document.getElementById('statTypes').textContent = types.size;
 }
 
-window.onload = initMap;
+// ====== 获奖荣誉 ======
+let awardFilter = 'all';
+
+function renderAwards() {
+    const container = document.getElementById('awardsContent');
+    container.innerHTML = '';
+
+    const filtered = awardFilter === 'all'
+        ? awards
+        : awards.filter(a => a.level.includes(awardFilter));
+
+    // 统计
+    document.getElementById('awardTotal').textContent = filtered.length;
+    document.getElementById('awardNational').textContent = filtered.filter(a => a.level.includes('国家')).length;
+    document.getElementById('awardProvincial').textContent = filtered.filter(a => a.level.includes('省') || a.level.includes('部')).length;
+
+    // 按年份分组（降序）
+    const byYear = {};
+    filtered.forEach(a => {
+        const y = a.year || '未标注';
+        if (!byYear[y]) byYear[y] = [];
+        byYear[y].push(a);
+    });
+
+    const sortedYears = Object.keys(byYear).sort((a, b) => {
+        if (a === '未标注') return 1;
+        if (b === '未标注') return -1;
+        return b.localeCompare(a);
+    });
+
+    sortedYears.forEach(year => {
+        const group = document.createElement('div');
+        group.className = 'award-year-group';
+
+        const header = document.createElement('div');
+        header.className = 'award-year-header';
+        header.textContent = `${year}年（${byYear[year].length}项）`;
+        group.appendChild(header);
+
+        byYear[year].forEach(a => {
+            const card = document.createElement('div');
+            card.className = 'award-card';
+
+            let levelClass = 'level-other';
+            if (a.level.includes('国家')) levelClass = 'level-national';
+            else if (a.level.includes('省') || a.level.includes('部')) levelClass = 'level-provincial';
+            else if (a.level.includes('市')) levelClass = 'level-municipal';
+
+            card.innerHTML = `
+                <div class="award-card-title">${a.name}</div>
+                <div class="award-card-meta">
+                    <span class="award-level-badge ${levelClass}">${a.level}</span>
+                    <span>${a.category}</span>
+                    ${a.project ? '· ' + a.project : ''}
+                </div>
+            `;
+            group.appendChild(card);
+        });
+
+        container.appendChild(group);
+    });
+}
+
+function filterAwards(level) {
+    awardFilter = level;
+    document.querySelectorAll('#page-awards .sub-filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.includes(level) || (level === 'all' && btn.textContent.includes('全部')));
+    });
+    renderAwards();
+}
+
+// ====== 标准规范 ======
+let stdFilter = 'all';
+
+function renderStandards() {
+    const container = document.getElementById('stdGrid');
+    container.innerHTML = '';
+
+    const filtered = stdFilter === 'all'
+        ? standards
+        : standards.filter(s => s.type.includes(stdFilter));
+
+    // 摘要
+    const summaryEl = document.getElementById('stdSummary');
+    const typeCounts = {};
+    standards.forEach(s => {
+        const t = s.type;
+        typeCounts[t] = (typeCounts[t] || 0) + 1;
+    });
+    summaryEl.innerHTML = `
+        <div class="summary-card"><div class="summary-num">${standards.length}</div><div class="summary-label">标准规范总数</div></div>
+        ${Object.entries(typeCounts).map(([t,c]) => `<div class="summary-card"><div class="summary-num">${c}</div><div class="summary-label">${t}</div></div>`).join('')}
+    `;
+
+    filtered.forEach(s => {
+        const card = document.createElement('div');
+        card.className = 'std-card';
+        card.innerHTML = `
+            <div class="std-card-type">${s.type}</div>
+            <div class="std-card-title">${s.name}</div>
+            <div class="std-card-meta">${s.role}</div>
+            ${s.code ? `<span class="std-card-code">${s.code}</span>` : ''}
+        `;
+        container.appendChild(card);
+    });
+}
+
+function filterStandards(type) {
+    stdFilter = type;
+    document.querySelectorAll('#page-standards .sub-filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.includes(type) || (type === 'all' && btn.textContent.includes('全部')));
+    });
+    renderStandards();
+}
+
+// ====== 学术出版 ======
+function renderBooks() {
+    const container = document.getElementById('bookList');
+    container.innerHTML = '';
+
+    const summaryEl = document.getElementById('bookSummary');
+    const typeCounts = {};
+    books.forEach(b => {
+        const t = b.type;
+        typeCounts[t] = (typeCounts[t] || 0) + 1;
+    });
+    summaryEl.innerHTML = `
+        <div class="summary-card"><div class="summary-num">${books.length}</div><div class="summary-label">出版物总数</div></div>
+        ${Object.entries(typeCounts).map(([t,c]) => `<div class="summary-card"><div class="summary-num">${c}</div><div class="summary-label">${t}</div></div>`).join('')}
+    `;
+
+    books.forEach(b => {
+        const card = document.createElement('div');
+        card.className = 'book-card';
+        const icon = b.type === '译著' ? '📖' : b.type === '专著' ? '📕' : b.type === '编著' ? '📗' : '📘';
+        card.innerHTML = `
+            <div class="book-cover">${icon}</div>
+            <div class="book-info">
+                <div class="book-title">${b.title}</div>
+                <div class="book-meta">
+                    <span style="color:var(--accent)">${b.type}</span> · ${b.author}<br>
+                    ${b.publisher} ${b.year ? '· ' + b.year + '年' : ''}
+                    ${b.isbn ? '<br>ISBN: ' + b.isbn : ''}
+                </div>
+                ${b.desc ? `<div class="book-desc">${b.desc.substring(0,120)}${b.desc.length > 120 ? '...' : ''}</div>` : ''}
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+// ====== 初始化 ======
+window.onload = () => {
+    initMap();
+    renderAwards();
+    renderStandards();
+    renderBooks();
+};
 </script>
+
 </body>
 </html>
